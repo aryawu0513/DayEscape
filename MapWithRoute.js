@@ -44,8 +44,8 @@ const MapWithRoute = ({ fakeRoute }) => {
         initialRegion={{
           latitude: 42.34,
           longitude: -71.09,
-          latitudeDelta: 5,
-          longitudeDelta: 1,
+          latitudeDelta: 0.1,
+          longitudeDelta: 0.02,
         }}
       >
         {/* Render individual MapViewDirections for each consecutive pair of waypoints */}

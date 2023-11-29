@@ -1,5 +1,5 @@
 export async function validRoute(route) {
-  for (let i = 0; i < route.places.length - 1; i++) {
+  for (let i = 0; i < route.places.length - 2; i++) {
     const currentPlace = route.places[i];
     const nextPlace = route.places[i + 1];
     // console.log(
