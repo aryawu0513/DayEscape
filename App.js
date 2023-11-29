@@ -1,82 +1,50 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Button, Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
+import MapWithRoute from "./MapWithRoute";
+import { validRoute } from "./utils";
+import { fakeRoutes } from "./fake_route";
 
 const App = () => {
-  const [destination, setDestination] = useState({
-    latitude: 6.5792,
-    longitude: 79.9629,
-  });
+  const fakeRouteToTest = fakeRoutes[0];
+  const [testResult, setTestResult] = useState(null);
 
-  const [origin, setOrigin] = useState({
-    latitude: 6.9271,
-    longitude: 79.8612,
-  });
-
-  const [waypoints, setWaypoints] = useState([
-    { latitude: 6.9001, longitude: 79.9001 },
-    { latitude: 6.821, longitude: 79.8886 },
-    // Add more waypoints as needed
-    // { latitude: ..., longitude: ... },
-    // { latitude: ..., longitude: ... },
-  ]);
-
-  const [resultInfo, setResultInfo] = useState({
-    distance: 0,
-    duration: 0,
-  });
-
-  const handleDirectionsReady = (result) => {
-    console.log(`Distance: ${result.distance} km`);
-    console.log(`Duration: ${result.duration} min.`);
-    console.log(`Coordinates: ${result.coordinates}`);
-    // Set the result information in the state
-    setResultInfo({
-      distance: result.distance,
-      duration: result.duration,
-    });
-  };
+  useEffect(() => {
+    // Call the validRoute function with the fake route
+    validRoute(fakeRouteToTest)
+      .then((testResult) => {
+        // Display the result in the console or use it as needed in your app
+        setTestResult(testResult);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []); // Empty dependency array ensures this useEffect runs only once
 
   return (
     <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 7.8731,
-          longitude: 80.7718,
-          latitudeDelta: 5,
-          longitudeDelta: 1,
-        }}
-      >
-        <MapViewDirections
-          origin={origin}
-          destination={destination}
-          waypoints={waypoints}
-          apikey="AIzaSyD2K1NnQskqsq17udp2vqYQF_We9kuvf6I"
-          strokeWidth={4}
-          strokeColor="red"
-          mode={"DRIVING"}
-          onReady={handleDirectionsReady}
-        />
-        <Marker coordinate={origin} title="Starting Point" />
-        <Marker coordinate={destination} title="Destination Point" />
-      </MapView>
-
-      {/* Display the result information */}
-      <View style={styles.resultContainer}>
-        <Text>Distance: {resultInfo.distance} km</Text>
-        <Text>Duration: {resultInfo.duration} min</Text>
-      </View>
+      {testResult !== null && testResult.feasible ? (
+        <MapWithRoute fakeRoute={fakeRouteToTest} />
+      ) : (
+        <Text>{`The route failed at ${
+          testResult ? testResult.failedPlace : "unknown place"
+        }! Late by ${
+          testResult ? testResult.lateTime : "unknown time"
+        } minutes.`}</Text>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: "flex-end",
+    flex: 1,
     alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+    width: "100%",
+    height: "100%",
   },
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -86,6 +54,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     margin: 10,
+  },
+  segmentInfo: {
+    marginBottom: 10,
   },
 });
 
