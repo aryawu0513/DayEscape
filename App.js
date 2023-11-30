@@ -5,13 +5,15 @@ import { validRoute } from "./utils";
 import { fakeRoutes } from "./fake_route";
 
 const App = () => {
-  const fakeRouteToTest = fakeRoutes[0];
+  const fakeRouteToTest = fakeRoutes[1];
   const [testResult, setTestResult] = useState(null);
 
   const handleButtonClick = async () => {
     try {
       const result = await validRoute(fakeRouteToTest);
-      setTestResult(result);
+      setTestResult((prevresult) => {
+        return result;
+      });
     } catch (error) {
       console.error("Error:", error);
     }
