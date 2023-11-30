@@ -3,6 +3,7 @@
 export const fakeRoutes = [
   {
     routeName: "Trip to Boston will succeed",
+    createTime: "2023-11-27T12:01:30",
     places: [
       {
         name: "MFA Museum",
@@ -43,6 +44,7 @@ export const fakeRoutes = [
   },
   {
     routeName: "Trip to Boston will fail at Trader Joes 21 min",
+    createTime: "2023-11-28T19:30:03",
     places: [
       {
         name: "MFA Museum",
