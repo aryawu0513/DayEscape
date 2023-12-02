@@ -3,12 +3,14 @@ import { StyleSheet, View, Text, Button } from "react-native";
 
 import CreateRouteScreen from "./CreateScreen";
 import CheckRouteScreen from "./CheckRouteScreen";
+import TransportationScreen from "./TransportationScreen";
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <CreateRouteScreen></CreateRouteScreen>
+      {/* <CreateRouteScreen></CreateRouteScreen> */}
       {/* <CheckRouteScreen></CheckRouteScreen> */}
+      <TransportationScreen></TransportationScreen>
     </View>
   );
 };
