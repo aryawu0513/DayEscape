@@ -1,36 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import MapWithRoute from "./MapWithRoute";
-import { validRoute } from "./utils";
-import { fakeRoutes } from "./fake_route";
+
+import CreateRouteScreen from "./CreateScreen";
+import CheckRouteScreen from "./CheckRouteScreen";
 
 const App = () => {
-  const fakeRouteToTest = fakeRoutes[1];
-  const [testResult, setTestResult] = useState(null);
-
-  const handleButtonClick = async () => {
-    try {
-      const result = await validRoute(fakeRouteToTest);
-      setTestResult((prevresult) => {
-        return result;
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <Button title="Check Route" onPress={handleButtonClick} />
-      {testResult !== null && testResult.feasible ? (
-        <MapWithRoute fakeRoute={fakeRouteToTest} />
-      ) : (
-        <Text>{`The route failed at ${
-          testResult ? testResult.failedPlace : "unknown place"
-        }! Late by ${
-          testResult ? testResult.lateTime : "unknown time"
-        } minutes.`}</Text>
-      )}
+      <CreateRouteScreen></CreateRouteScreen>
+      {/* <CheckRouteScreen></CheckRouteScreen> */}
     </View>
   );
 };
