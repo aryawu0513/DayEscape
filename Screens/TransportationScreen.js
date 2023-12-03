@@ -4,13 +4,16 @@ import MapView, { Marker, Polyline } from "react-native-maps";
 import { fakeRouteNoTransportation } from "../fake_route_no_transportation";
 import TransportPickerModal from "../Modals/TransportPickerModal";
 import { validRoute } from "../utils";
+import ErrorModal from "../Modals/ErrorModal";
+import MapWithRoute from "../MapWithRoute";
 
 const TransportationScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
   const [route, setRoute] = useState(fakeRouteNoTransportation);
-  const [testResult, setTestResult] = useState(null);
+  const [testResult, setTestResult] = useState({});
   const [canContinue, setCanContinue] = useState(null);
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
 
   const orderedPlaces = route.places
     .slice()
@@ -30,6 +33,9 @@ const TransportationScreen = () => {
         return result;
       });
       setRoute(result.route);
+      if (!result.feasible) {
+        setErrorModalVisible(true);
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -42,6 +48,15 @@ const TransportationScreen = () => {
 
   return (
     <View style={styles.container}>
+      {testResult !== null && testResult.feasible ? (
+        <MapWithRoute route={route} /> //go to another screen.
+      ) : (
+        <ErrorModal
+          visible={errorModalVisible}
+          onClose={() => setErrorModalVisible(false)}
+          result={testResult}
+        />
+      )}
       <View style={styles.informationContainer}>
         <Text>
           Click on the gray line to select your mode of transportation between
@@ -141,6 +156,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     margin: 10,
+    // width: "100%",
+    // height: "100%",
   },
 });
 

@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 
-const MapWithRoute = ({ fakeRoute }) => {
+const MapWithRoute = ({ route }) => {
   const [waypoints, setWaypoints] = useState([]);
   const [places, setPlaces] = useState([]);
   const [resultInfos, setResultInfos] = useState([]);
@@ -11,16 +11,16 @@ const MapWithRoute = ({ fakeRoute }) => {
 
   useEffect(() => {
     // Update state with fake route data when the component mounts
-    if (fakeRoute) {
-      setWaypoints(fakeRoute.places.map((place) => place.coordinates));
-      setPlaces(fakeRoute.places.map((place) => place.name));
+    if (route) {
+      setWaypoints(route.places.map((place) => place.coordinates));
+      setPlaces(route.places.map((place) => place.name));
       setTransportation(
-        fakeRoute.places.map((place) =>
+        route.places.map((place) =>
           place.transportationMode ? place.transportationMode.toUpperCase() : ""
         )
       );
     }
-  }, [fakeRoute]);
+  }, [route]);
 
   const handleDirectionsReady = (result, index) => {
     console.log(`Distance: ${result.distance} km`);

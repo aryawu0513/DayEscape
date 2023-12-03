@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 
 import CreateRouteScreen from "./Screens/CreateScreen";
-import CheckRouteScreen from "./Screens/CheckRouteScreen";
 import TransportationScreen from "./Screens/TransportationScreen";
 import LocationScreen from "./Screens/LocationScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
@@ -11,7 +10,6 @@ const App = () => {
   return (
     <View style={styles.container}>
       {/* <CreateRouteScreen></CreateRouteScreen> */}
-      {/* <CheckRouteScreen></CheckRouteScreen> */}
       <TransportationScreen></TransportationScreen>
       {/* <LocationScreen></LocationScreen> */}
       {/* <SingleNoteScreen></SingleNoteScreen> */}
