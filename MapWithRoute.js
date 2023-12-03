@@ -6,13 +6,13 @@ import MapViewDirections from "react-native-maps-directions";
 const MapWithRoute = ({ route }) => {
   const [waypoints, setWaypoints] = useState([]);
   const [places, setPlaces] = useState([]);
-  const [resultInfos, setResultInfos] = useState([]);
   const [transportation, setTransportation] = useState([]);
 
   useEffect(() => {
-    // Update state with fake route data when the component mounts
+    // Update state with route data when the component mounts
     if (route) {
-      setWaypoints(route.places.map((place) => place.coordinates));
+      const routeWaypoints = route.places.map((place) => place.coordinates);
+      setWaypoints(routeWaypoints);
       setPlaces(route.places.map((place) => place.name));
       setTransportation(
         route.places.map((place) =>
@@ -21,21 +21,6 @@ const MapWithRoute = ({ route }) => {
       );
     }
   }, [route]);
-
-  const handleDirectionsReady = (result, index) => {
-    console.log(`Distance: ${result.distance} km`);
-    console.log(`Duration: ${result.duration} min.`);
-
-    // Update the result information for the current segment in the state
-    setResultInfos((prevResultInfos) => {
-      const newResultInfos = [...prevResultInfos];
-      newResultInfos[index] = {
-        distance: result.distance,
-        duration: result.duration,
-      };
-      return newResultInfos;
-    });
-  };
 
   return (
     <View style={styles.container}>
@@ -57,11 +42,10 @@ const MapWithRoute = ({ route }) => {
               <MapViewDirections
                 origin={waypoint}
                 destination={nextWaypoint}
-                apikey="AIzaSyD2K1NnQskqsq17udp2vqYQF_We9kuvf6I" // AIzaSyD2K1NnQskqsq17udp2vqYQF_We9kuvf6I
+                apikey="AIzaSyD2K1NnQskqsq17udp2vqYQF_We9kuvf6I"
                 strokeWidth={4}
                 strokeColor="red"
                 mode={transportation[index]}
-                onReady={(result) => handleDirectionsReady(result, index)}
               />
               <Marker coordinate={waypoint} title={places[index]} />
             </React.Fragment>
@@ -71,11 +55,10 @@ const MapWithRoute = ({ route }) => {
 
       {/* Display the result information for each segment */}
       <View style={styles.resultContainer}>
-        {resultInfos.map((resultInfo, index) => (
+        {route.places.map((place, index) => (
           <View key={`result_${index}`} style={styles.segmentInfo}>
             <Text>Segment {index + 1}</Text>
-            <Text>Distance: {resultInfo.distance} km</Text>
-            <Text>Duration: {resultInfo.duration} min</Text>
+            <Text>Duration: {place.transportDuration} min</Text>
           </View>
         ))}
       </View>

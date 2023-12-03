@@ -6,12 +6,13 @@ import TransportPickerModal from "../Modals/TransportPickerModal";
 import { validRoute } from "../utils";
 import ErrorModal from "../Modals/ErrorModal";
 import MapWithRoute from "../MapWithRoute";
+import SaveRouteScreen from "./SaveRouteScreen";
 
 const TransportationScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
   const [route, setRoute] = useState(fakeRouteNoTransportation);
-  const [testResult, setTestResult] = useState({});
+  const [testResult, setTestResult] = useState(null);
   const [canContinue, setCanContinue] = useState(null);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
 
@@ -49,13 +50,15 @@ const TransportationScreen = () => {
   return (
     <View style={styles.container}>
       {testResult !== null && testResult.feasible ? (
-        <MapWithRoute route={route} /> //go to another screen.
+        <MapWithRoute route={route} /> //navigation.navigate('YourOtherScreenName', { route })
       ) : (
-        <ErrorModal
-          visible={errorModalVisible}
-          onClose={() => setErrorModalVisible(false)}
-          result={testResult}
-        />
+        testResult !== null && (
+          <ErrorModal
+            visible={errorModalVisible}
+            onClose={() => setErrorModalVisible(false)}
+            result={testResult}
+          />
+        )
       )}
       <View style={styles.informationContainer}>
         <Text>

@@ -22,7 +22,7 @@ export async function validRoute(route) {
       );
 
       const estimatedTravelTime = directionsResponse.duration.value / 60;
-      route = updateRoute(route, i, estimatedTravelTime);
+      route = updateRouteDuration(route, i, estimatedTravelTime);
 
       // Calculate actual arriving time at the succeeding place
       const actualArrivingTime = new Date(currentPlace.leaveTime);
@@ -86,7 +86,7 @@ async function fetchDirections(origin, destination, mode) {
 }
 
 // Example of a generic function to update the route
-function updateRoute(route, index, transportDuration) {
+function updateRouteDuration(route, index, transportDuration) {
   const updatedPlaces = [...route.places];
   updatedPlaces[index] = {
     ...updatedPlaces[index],
@@ -98,3 +98,13 @@ function updateRoute(route, index, transportDuration) {
     places: updatedPlaces,
   };
 }
+
+// Example of a generic function to update the route name
+function updateRouteName(route, routeName) {
+  return {
+    ...route,
+    routeName: routeName,
+  };
+}
+
+export default updateRouteName;

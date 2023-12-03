@@ -5,12 +5,15 @@ import CreateRouteScreen from "./Screens/CreateScreen";
 import TransportationScreen from "./Screens/TransportationScreen";
 import LocationScreen from "./Screens/LocationScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
+import SaveRouteScreen from "./Screens/SaveRouteScreen";
+import { fakeRoutes } from "./fake_route";
 
 const App = () => {
   return (
     <View style={styles.container}>
       {/* <CreateRouteScreen></CreateRouteScreen> */}
-      <TransportationScreen></TransportationScreen>
+      {/* <TransportationScreen></TransportationScreen> */}
+      <SaveRouteScreen route={fakeRoutes[0]}></SaveRouteScreen>
       {/* <LocationScreen></LocationScreen> */}
       {/* <SingleNoteScreen></SingleNoteScreen> */}
     </View>
