@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Button } from "react-native";
 
 import CreateRouteScreen from "./Screens/CreateScreen";
 import TransportationScreen from "./Screens/TransportationScreen";
-import LocationScreen from "./Screens/LocationScreen";
+import PlacesScreen from "./Screens/PlacesScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
 import SaveRouteScreen from "./Screens/SaveRouteScreen";
 import { fakeRoutes } from "./fake_route";

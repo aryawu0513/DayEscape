@@ -9,8 +9,11 @@ import {
 } from "react-native";
 
 import { locations } from "../fake_locations";
+import AddPlaceModal from "../Modals/AddPlaceModal";
+import { useState } from "react";
 
-function LocationScreen() {
+function PlacesScreen() {
+  const [modal, setModal] = useState(false);
   const ListItem = (props) => {
     return (
       <TouchableOpacity>
@@ -25,7 +28,8 @@ function LocationScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Places You Saved</Text>
-        <Button mode="contained" title="Add New Place"></Button>
+        <Button mode="contained" title="Add New Place" onPress={()=>setModal(true)}></Button>
+        {modal && <AddPlaceModal onClose={setModal}></AddPlaceModal>}
       </View>
       <FlatList
         data={locations}
@@ -74,4 +78,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LocationScreen;
+export default PlacesScreen;
