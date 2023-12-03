@@ -9,9 +9,19 @@ const TransportationScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
   const [route, setRoute] = useState(fakeRouteNoTransportation);
-
-
   const [testResult, setTestResult] = useState(null);
+  const [canContinue, setCanContinue] = useState(null);
+
+  const orderedPlaces = route.places
+    .slice()
+    .sort((a, b) => new Date(a.arriveTime) - new Date(b.arriveTime));
+
+  useEffect(() => {
+    const canContinue = route.places
+      .slice(0, -1)
+      .every((place) => place.transportationMode !== null);
+    setCanContinue(canContinue);
+  }, [route]);
 
   const handleButtonClick = async () => {
     try {
@@ -24,18 +34,10 @@ const TransportationScreen = () => {
     }
   };
 
-  const orderedPlaces = route.places
-    .slice()
-    .sort((a, b) => new Date(a.arriveTime) - new Date(b.arriveTime));
-
   function setModal(index) {
     setModalVisible(true);
     setSelectedIndex(index);
   }
-
-  const canContinue = orderedPlaces.every(
-    (orderedPlaces) => orderedPlaces.transportationMode !== null
-  );
 
   return (
     <View style={styles.container}>
@@ -48,9 +50,13 @@ const TransportationScreen = () => {
           {orderedPlaces.map((place, index) => (
             <View key={index}>
               <Text>{place.name}</Text>
-              <Text>{`Transportation mode: ${
-                place.transportationMode ? place.transportationMode : "missing"
-              }`}</Text>
+              {index != orderedPlaces.length-1 && (
+                <Text>{`Transportation mode: ${
+                  place.transportationMode
+                    ? place.transportationMode
+                    : "missing"
+                }`}</Text>
+              )}
             </View>
           ))}
         </View>
@@ -59,7 +65,7 @@ const TransportationScreen = () => {
           labelStyle={styles.buttonText}
           title="Finished!"
           onPress={handleButtonClick}
-          disabled={canContinue}
+          disabled={!canContinue}
         ></Button>
         {modalVisible && (
           <TransportPickerModal
