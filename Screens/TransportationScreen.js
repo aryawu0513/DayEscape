@@ -29,6 +29,7 @@ const TransportationScreen = () => {
       setTestResult((prevresult) => {
         return result;
       });
+      setRoute(result.route);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -50,7 +51,7 @@ const TransportationScreen = () => {
           {orderedPlaces.map((place, index) => (
             <View key={index}>
               <Text>{place.name}</Text>
-              {index != orderedPlaces.length-1 && (
+              {index != orderedPlaces.length - 1 && (
                 <Text>{`Transportation mode: ${
                   place.transportationMode
                     ? place.transportationMode

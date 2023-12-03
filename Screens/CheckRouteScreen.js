@@ -5,7 +5,7 @@ import { validRoute } from "../utils";
 import { fakeRoutes } from "../fake_route";
 
 const CheckRouteScreen = () => {
-  const fakeRouteToTest = fakeRoutes[1];
+  const fakeRouteToTest = fakeRoutes[0];
   const [testResult, setTestResult] = useState(null);
 
   const handleButtonClick = async () => {
@@ -36,26 +36,26 @@ const CheckRouteScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 20,
-      width: "100%",
-      height: "100%",
-    },
-    map: {
-      ...StyleSheet.absoluteFillObject,
-    },
-    resultContainer: {
-      backgroundColor: "white",
-      padding: 10,
-      borderRadius: 5,
-      margin: 10,
-    },
-    segmentInfo: {
-      marginBottom: 10,
-    },
-  });
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+    width: "100%",
+    height: "100%",
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  resultContainer: {
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+  },
+  segmentInfo: {
+    marginBottom: 10,
+  },
+});
 
 export default CheckRouteScreen;

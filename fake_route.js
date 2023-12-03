@@ -15,7 +15,7 @@ export const fakeRoutes = [
         leaveTime: "2023-11-29T13:00:00",
         //Distance:1.492 km
         transportationMode: "walking", //from current place to the next place.
-        transportDuration: 21.4, //min to the next place
+        transportDuration: null, //21.4 min to the next place
       },
       {
         name: "Trader Joe's",
@@ -27,7 +27,7 @@ export const fakeRoutes = [
         leaveTime: "2023-11-29T16:30:00",
         //Distance:3.066 km
         transportationMode: "driving",
-        transportDuration: 12.65,
+        transportDuration: null, //12.65
       },
       {
         name: "GoodWill",
@@ -37,8 +37,8 @@ export const fakeRoutes = [
         },
         arriveTime: "2023-11-29T17:00:00",
         leaveTime: "2023-11-29T18:00:00",
-        transportationMode: "bicycling",
-        transportDuration: 10,
+        transportationMode: null,
+        transportDuration: null,
       },
     ],
   },

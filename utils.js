@@ -1,10 +1,16 @@
 export async function validRoute(route) {
-  for (let i = 0; i < route.places.length - 2; i++) {
+  for (let i = 0; i < route.places.length - 1; i++) {
     const currentPlace = route.places[i];
     const nextPlace = route.places[i + 1];
-    // console.log(
-    //   `Checking route from ${currentPlace.name} to ${nextPlace.name}`
-    // );
+    // Check if transportationMode is null
+    if (currentPlace.transportationMode === null) {
+      console.error("Transportation mode is null for place", currentPlace.name);
+      return {
+        feasible: false,
+        failedPlace: currentPlace.name,
+        lateTime: 0,
+      };
+    }
 
     // Call Google Maps Directions API to get real-life route and estimated travel time
     try {
@@ -16,7 +22,7 @@ export async function validRoute(route) {
       );
 
       const estimatedTravelTime = directionsResponse.duration.value / 60;
-      //console.log("estimatedTravelTime", estimatedTravelTime);
+      route = updateRoute(route, i, estimatedTravelTime);
 
       // Calculate actual arriving time at the succeeding place
       const actualArrivingTime = new Date(currentPlace.leaveTime);
@@ -36,6 +42,7 @@ export async function validRoute(route) {
         );
         return {
           feasible: false,
+          route: route,
           failedPlace: nextPlace.name,
           lateTime:
             (actualArrivingTime - new Date(nextPlace.arriveTime)) / (1000 * 60),
@@ -52,8 +59,9 @@ export async function validRoute(route) {
     }
   }
   console.log("The route works!!");
+  console.log(route);
 
-  return { feasible: true };
+  return { feasible: true, route: route };
 }
 
 async function fetchDirections(origin, destination, mode) {
@@ -75,4 +83,18 @@ async function fetchDirections(origin, destination, mode) {
       `Directions API request failed with status: ${data.status}`
     );
   }
+}
+
+// Example of a generic function to update the route
+function updateRoute(route, index, transportDuration) {
+  const updatedPlaces = [...route.places];
+  updatedPlaces[index] = {
+    ...updatedPlaces[index],
+    transportDuration: transportDuration,
+  };
+
+  return {
+    ...route,
+    places: updatedPlaces,
+  };
 }

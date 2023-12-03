@@ -19,6 +19,7 @@ function TransportPickerModal({ onClose, onSave, selected }) {
     { label: "Walking", value: "walking" },
     { label: "Driving", value: "driving" },
     { label: "Bicycling", value: "bicycling" },
+    { label: "Transit", value: "transit" },
   ]);
 
   function closeModal() {
