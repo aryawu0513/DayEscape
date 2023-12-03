@@ -25,13 +25,13 @@ function SingleNoteScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={styles.container}>
-        <Text>Trader Joe's</Text>
+        <Text style={styles.titleText}>Trader Joe's</Text>
         <TextInput
           editable
           multiline
           onChangeText={(text) => onChangeText((prev)=>{return text})}
           value={value}
-          style={{ padding: 10 }}
+          style={styles.textContainer}
         />
         <Button
           mode="contained"
@@ -49,7 +49,17 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
-    borderColor: 'blue',
+    alignItems: "center",
+  },
+  textContainer: {
+    width: "100%",
+    backgroundColor: "#F5F5F5",
+    padding: 15,
+    lineHeight: 24,
+  },
+  titleText: {
+    fontSize: 20,
+    padding: 15,
   },
 });
 

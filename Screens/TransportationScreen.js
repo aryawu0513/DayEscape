@@ -15,16 +15,16 @@ const TransportationScreen = () => {
   const [canContinue, setCanContinue] = useState(null);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
 
-  const orderedPlaces = route.places
-    .slice()
-    .sort((a, b) => new Date(a.arriveTime) - new Date(b.arriveTime));
-
   useEffect(() => {
     const canContinue = route.places
       .slice(0, -1)
       .every((place) => place.transportationMode !== null);
     setCanContinue(canContinue);
   }, [route]);
+
+  const orderedPlaces = route.places
+    .slice()
+    .sort((a, b) => new Date(a.arriveTime) - new Date(b.arriveTime));
 
   const handleButtonClick = async () => {
     try {

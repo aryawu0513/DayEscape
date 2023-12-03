@@ -3,15 +3,15 @@ import { StyleSheet, View, Text, Button } from "react-native";
 
 import CreateRouteScreen from "./Screens/CreateScreen";
 import TransportationScreen from "./Screens/TransportationScreen";
-import LocationScreen from "./Screens/LocationScreen";
+import PlacesScreen from "./Screens/PlacesScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
 
 const App = () => {
   return (
     <View style={styles.container}>
       {/* <CreateRouteScreen></CreateRouteScreen> */}
-      <TransportationScreen></TransportationScreen>
-      {/* <LocationScreen></LocationScreen> */}
+      {/* <TransportationScreen></TransportationScreen> */}
+      <PlacesScreen></PlacesScreen>
       {/* <SingleNoteScreen></SingleNoteScreen> */}
     </View>
   );
