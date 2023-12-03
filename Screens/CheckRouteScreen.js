@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import MapWithRoute from "./MapWithRoute";
-import { validRoute } from "./utils";
-import { fakeRoutes } from "./fake_route";
+import MapWithRoute from "../MapWithRoute";
+import { validRoute } from "../utils";
+import { fakeRoutes } from "../fake_route";
 
 const CheckRouteScreen = () => {
   const fakeRouteToTest = fakeRoutes[1];

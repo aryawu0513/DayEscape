@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 
-import CreateRouteScreen from "./CreateScreen";
-import CheckRouteScreen from "./CheckRouteScreen";
-import TransportationScreen from "./TransportationScreen";
+import CreateRouteScreen from "./Screens/CreateScreen";
+import CheckRouteScreen from "./Screens/CheckRouteScreen";
+import TransportationScreen from "./Screens/TransportationScreen";
+import LocationScreen from "./Screens/LocationScreen";
 
 const App = () => {
   return (
     <View style={styles.container}>
       {/* <CreateRouteScreen></CreateRouteScreen> */}
       {/* <CheckRouteScreen></CheckRouteScreen> */}
-      <TransportationScreen></TransportationScreen>
+      {/* <TransportationScreen></TransportationScreen> */}
+      <LocationScreen></LocationScreen>
     </View>
   );
 };

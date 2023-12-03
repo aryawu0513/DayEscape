@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import { fakeRouteNoTransportation } from "./fake_route_no_transportation";
-import TransportPickerModal from "./Modals/TransportPickerModal";
+import { fakeRouteNoTransportation } from "../fake_route_no_transportation";
+import TransportPickerModal from "../Modals/TransportPickerModal";
 
 const TransportationScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
