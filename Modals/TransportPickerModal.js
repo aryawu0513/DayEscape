@@ -7,6 +7,7 @@ import {
   Button,
   Dimensions,
 } from "react-native";
+import { fetchDirections } from "../utils";
 import DropDownPicker from "react-native-dropdown-picker";
 
 const { width } = Dimensions.get("window");

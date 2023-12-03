@@ -18,7 +18,9 @@ const TransportationScreen = () => {
     setSelectedIndex(index);
   }
 
-  const canContinue = orderedPlaces.every(orderedPlaces => orderedPlaces.transportationMode !== null);
+  const canContinue = orderedPlaces.every(
+    (orderedPlaces) => orderedPlaces.transportationMode !== null
+  );
 
   return (
     <View style={styles.container}>
@@ -27,11 +29,21 @@ const TransportationScreen = () => {
           Click on the gray line to select your mode of transportation between
           each pair of points
         </Text>
+        <View>
+          {orderedPlaces.map((place, index) => (
+            <View key={index}>
+              <Text>{place.name}</Text>
+              <Text>{`Transportation mode: ${
+                place.transportationMode ? place.transportationMode : "missing"
+              }`}</Text>
+            </View>
+          ))}
+        </View>
         <Button
-            mode="contained"
-            labelStyle={styles.buttonText}
-            title="Finished!"
-            disabled={canContinue}
+          mode="contained"
+          labelStyle={styles.buttonText}
+          title="Finished!"
+          disabled={canContinue}
         ></Button>
         {modalVisible && (
           <TransportPickerModal
@@ -74,7 +86,7 @@ const TransportationScreen = () => {
                   },
                 ]}
                 strokeWidth={5}
-                strokeColor= {place.transportationMode == null ? "grey" : "blue"}
+                strokeColor={place.transportationMode == null ? "grey" : "blue"}
                 tappable={true}
                 onPress={() => setModal(index)}
               />
