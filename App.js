@@ -5,6 +5,7 @@ import CreateRouteScreen from "./Screens/CreateScreen";
 import CheckRouteScreen from "./Screens/CheckRouteScreen";
 import TransportationScreen from "./Screens/TransportationScreen";
 import LocationScreen from "./Screens/LocationScreen";
+import SingleNoteScreen from "./Screens/SingleNoteScreen";
 
 const App = () => {
   return (
@@ -12,7 +13,8 @@ const App = () => {
       {/* <CreateRouteScreen></CreateRouteScreen> */}
       {/* <CheckRouteScreen></CheckRouteScreen> */}
       {/* <TransportationScreen></TransportationScreen> */}
-      <LocationScreen></LocationScreen>
+      {/* <LocationScreen></LocationScreen> */}
+      <SingleNoteScreen></SingleNoteScreen>
     </View>
   );
 };
