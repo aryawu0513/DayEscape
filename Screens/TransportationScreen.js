@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import { fakeRouteNoTransportation } from "../fake_route_no_transportation";
+import { fakeRouteNoTransportation } from "../FakeData/fake_route_no_transportation";
 import TransportPickerModal from "../Modals/TransportPickerModal";
 import { validRoute } from "../utils";
 import ErrorModal from "../Modals/ErrorModal";
-import MapWithRoute from "../MapWithRoute";
+import MapWithRoute from "../Components/MapWithRoute";
 import SaveRouteScreen from "./SaveRouteScreen";
 
 const TransportationScreen = () => {

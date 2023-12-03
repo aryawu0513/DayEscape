@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
-import MapWithRoute from "../MapWithRoute";
+import MapWithRoute from "../Components/MapWithRoute";
 import AddNameModal from "../Modals/AddNameModal";
-import updateRouteName from "../utils";
 
 const SaveRouteScreen = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -29,6 +28,14 @@ const SaveRouteScreen = ({ route }) => {
     console.log("Deleting route:", routeName);
     closeModal();
   };
+
+  // Example of a generic function to update the route name
+  function updateRouteName(route, routeName) {
+    return {
+      ...route,
+      routeName: routeName,
+    };
+  }
 
   return (
     <View style={styles.container}>

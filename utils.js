@@ -98,13 +98,3 @@ function updateRouteDuration(route, index, transportDuration) {
     places: updatedPlaces,
   };
 }
-
-// Example of a generic function to update the route name
-function updateRouteName(route, routeName) {
-  return {
-    ...route,
-    routeName: routeName,
-  };
-}
-
-export default updateRouteName;

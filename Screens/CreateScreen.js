@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
-import { locations } from "../fake_locations";
+import { locations } from "../FakeData/fake_locations";
 import TimePickerModal from "../Modals/TimePickerModal";
 
 const emptyRoute = {
@@ -20,18 +20,26 @@ const CreateRouteScreen = () => {
     setModalVisible(true);
   }
 
-  const sortedPlaces = route.places.slice().sort((a, b) => a.arrivalTime - b.arrivalTime);
+  const sortedPlaces = route.places
+    .slice()
+    .sort((a, b) => a.arrivalTime - b.arrivalTime);
 
   return (
     <View style={styles.container}>
       <View style={styles.informationContainer}>
         <Text>Create New Route</Text>
         {modalVisible && (
-          <TimePickerModal onCreate={setRoute} pin={selectedPin} onClose={setModalVisible}></TimePickerModal>
+          <TimePickerModal
+            onCreate={setRoute}
+            pin={selectedPin}
+            onClose={setModalVisible}
+          ></TimePickerModal>
         )}
         {sortedPlaces.map((place, index) => (
-        <Text key={index}>{index+1}: {place.name}</Text>
-      ))}
+          <Text key={index}>
+            {index + 1}: {place.name}
+          </Text>
+        ))}
       </View>
       <MapView
         style={styles.map}
@@ -47,7 +55,7 @@ const CreateRouteScreen = () => {
             key={index}
             coordinate={location.coordinates}
             title={location.name}
-            onPress={e=>setModal(location)}
+            onPress={(e) => setModal(location)}
           />
         ))}
       </MapView>

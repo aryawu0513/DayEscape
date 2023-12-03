@@ -6,7 +6,7 @@ import TransportationScreen from "./Screens/TransportationScreen";
 import PlacesScreen from "./Screens/PlacesScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
 import SaveRouteScreen from "./Screens/SaveRouteScreen";
-import { fakeRoutes } from "./fake_route";
+import { fakeRoutes } from "./FakeData/fake_route";
 
 const App = () => {
   return (

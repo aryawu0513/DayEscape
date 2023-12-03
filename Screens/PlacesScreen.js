@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 
-import { locations } from "../fake_locations";
+import { locations } from "../FakeData/fake_locations";
 import AddPlaceModal from "../Modals/AddPlaceModal";
 import { useState } from "react";
 
@@ -28,7 +28,11 @@ function PlacesScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Places You Saved</Text>
-        <Button mode="contained" title="Add New Place" onPress={()=>setModal(true)}></Button>
+        <Button
+          mode="contained"
+          title="Add New Place"
+          onPress={() => setModal(true)}
+        ></Button>
         {modal && <AddPlaceModal onClose={setModal}></AddPlaceModal>}
       </View>
       <FlatList

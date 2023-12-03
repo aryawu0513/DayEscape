@@ -9,7 +9,7 @@ import {
   Button,
 } from "react-native";
 
-import { fakeNote } from "../fake_note";
+import { fakeNote } from "../FakeData/fake_note";
 
 function SingleNoteScreen() {
   const [note, setNote] = useState(fakeNote[0]);
@@ -17,8 +17,8 @@ function SingleNoteScreen() {
 
   const handleSaveNote = () => {
     setNote((prevNote) => {
-        return {...prevNote, note_description: value}
-    })
+      return { ...prevNote, note_description: value };
+    });
     console.log(note);
   };
 
@@ -29,7 +29,11 @@ function SingleNoteScreen() {
         <TextInput
           editable
           multiline
-          onChangeText={(text) => onChangeText((prev)=>{return text})}
+          onChangeText={(text) =>
+            onChangeText((prev) => {
+              return text;
+            })
+          }
           value={value}
           style={styles.textContainer}
         />
