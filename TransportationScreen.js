@@ -2,11 +2,24 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { fakeRouteNoTransportation } from "./fake_route_no_transportation";
+import TransportPickerModal from "./Modals/TransportPickerModal";
 
 const TransportationScreen = () => {
-  const orderedPlaces = fakeRouteNoTransportation.places
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(false);
+  const [route, setRoute] = useState(fakeRouteNoTransportation);
+
+  const orderedPlaces = route.places
     .slice()
     .sort((a, b) => new Date(a.arriveTime) - new Date(b.arriveTime));
+
+  function setModal(index) {
+    setModalVisible(true);
+    setSelectedIndex(index);
+  }
+
+  const canContinue = orderedPlaces.every(orderedPlaces => orderedPlaces.transportationMode !== null);
+
   return (
     <View style={styles.container}>
       <View style={styles.informationContainer}>
@@ -14,6 +27,19 @@ const TransportationScreen = () => {
           Click on the gray line to select your mode of transportation between
           each pair of points
         </Text>
+        <Button
+            mode="contained"
+            labelStyle={styles.buttonText}
+            title="Finished!"
+            disabled={canContinue}
+        ></Button>
+        {modalVisible && (
+          <TransportPickerModal
+            onClose={setModalVisible}
+            selected={selectedIndex}
+            onSave={setRoute}
+          />
+        )}
       </View>
       <MapView
         style={styles.map}
@@ -48,9 +74,9 @@ const TransportationScreen = () => {
                   },
                 ]}
                 strokeWidth={5}
-                strokeColor="grey"
-                tappable = {true}
-                onPress={() => console.log(`Polyline clicked between ${place.name} and ${nextPlace.name}`)}
+                strokeColor= {place.transportationMode == null ? "grey" : "blue"}
+                tappable={true}
+                onPress={() => setModal(index)}
               />
             );
           }

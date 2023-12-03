@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { locations } from "./fake_locations";
-import TimePickerModal from "./TimePickerModal";
+import TimePickerModal from "./Modals/TimePickerModal";
 
 const emptyRoute = {
   routeName: null,
