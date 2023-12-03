@@ -5,8 +5,7 @@ import AddNameModal from "../Modals/AddNameModal";
 
 const SaveRouteScreen = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [savedRoute, setSavedRoute] = useState(route);
-
+  //const [savedRoute, setSavedRoute] = useState(route);
   const openModal = () => {
     setModalVisible(true);
   };
@@ -17,9 +16,9 @@ const SaveRouteScreen = ({ route }) => {
 
   const saveRoute = (routeName) => {
     // call helper function to save the route with the provided routeName
-    const updatedRoute = updateRouteName(route, routeName);
+    const updatedRoute = updateRouteName(route.params, routeName);
     console.log("Saving route:", updatedRoute);
-    setSavedRoute(updatedRoute);
+    //setSavedRoute(updatedRoute);
     closeModal();
   };
 
@@ -40,8 +39,8 @@ const SaveRouteScreen = ({ route }) => {
   return (
     <View style={styles.container}>
       <Text>This is the SaveRouteScreen!</Text>
-      <Text>{savedRoute.routeName}</Text>
-      <MapWithRoute route={route} />
+      {/* <Text>{route.params.routeName}</Text> */}
+      <MapWithRoute route={route.params} />
 
       {/* Save Route Button */}
       <Button title="Save Route" onPress={openModal} />
@@ -53,7 +52,7 @@ const SaveRouteScreen = ({ route }) => {
         onSave={(name) => {
           saveRoute(name);
         }}
-        route={route}
+        route={route.params}
       />
     </View>
   );

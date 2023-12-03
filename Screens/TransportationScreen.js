@@ -6,6 +6,7 @@ import TransportPickerModal from "../Modals/TransportPickerModal";
 import { validRoute } from "../utils";
 import ErrorModal from "../Modals/ErrorModal";
 import MapWithRoute from "../Components/MapWithRoute";
+import { useNavigation } from "@react-navigation/native";
 import SaveRouteScreen from "./SaveRouteScreen";
 
 const TransportationScreen = () => {
@@ -15,6 +16,8 @@ const TransportationScreen = () => {
   const [testResult, setTestResult] = useState(null);
   const [canContinue, setCanContinue] = useState(null);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const canContinue = route.places
@@ -49,17 +52,15 @@ const TransportationScreen = () => {
 
   return (
     <View style={styles.container}>
-      {testResult !== null && testResult.feasible ? (
-        <MapWithRoute route={route} /> //navigation.navigate('YourOtherScreenName', { route })
-      ) : (
-        testResult !== null && (
-          <ErrorModal
-            visible={errorModalVisible}
-            onClose={() => setErrorModalVisible(false)}
-            result={testResult}
-          />
-        )
-      )}
+      {testResult !== null && testResult.feasible
+        ? navigation.navigate("SaveRouteScreen", route) //<MapWithRoute route={route}
+        : testResult !== null && (
+            <ErrorModal
+              visible={errorModalVisible}
+              onClose={() => setErrorModalVisible(false)}
+              result={testResult}
+            />
+          )}
       <View style={styles.informationContainer}>
         <Text>
           Click on the gray line to select your mode of transportation between

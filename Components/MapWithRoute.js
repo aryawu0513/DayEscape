@@ -1,26 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 
 const MapWithRoute = ({ route }) => {
-  const [waypoints, setWaypoints] = useState([]);
-  const [places, setPlaces] = useState([]);
-  const [transportation, setTransportation] = useState([]);
-
-  useEffect(() => {
-    // Update state with route data when the component mounts
-    if (route) {
-      const routeWaypoints = route.places.map((place) => place.coordinates);
-      setWaypoints(routeWaypoints);
-      setPlaces(route.places.map((place) => place.name));
-      setTransportation(
-        route.places.map((place) =>
-          place.transportationMode ? place.transportationMode.toUpperCase() : ""
-        )
-      );
-    }
-  }, [route]);
+  console.log("MapWithRoute is rendering.");
 
   return (
     <View style={styles.container}>
@@ -34,20 +18,24 @@ const MapWithRoute = ({ route }) => {
         }}
       >
         {/* Render individual MapViewDirections for each consecutive pair of waypoints */}
-        {waypoints.map((waypoint, index) => {
-          const nextWaypoint = waypoints[index + 1];
+        {route.places.map((place, index) => {
+          const waypoint = place.coordinates;
+          const nextPlace = route.places[index + 1];
+          const nextWaypoint = nextPlace ? nextPlace.coordinates : null;
 
           return (
             <React.Fragment key={`directions_${index}`}>
-              <MapViewDirections
-                origin={waypoint}
-                destination={nextWaypoint}
-                apikey="AIzaSyD2K1NnQskqsq17udp2vqYQF_We9kuvf6I"
-                strokeWidth={4}
-                strokeColor="red"
-                mode={transportation[index]}
-              />
-              <Marker coordinate={waypoint} title={places[index]} />
+              {nextWaypoint && (
+                <MapViewDirections
+                  origin={waypoint}
+                  destination={nextWaypoint}
+                  apikey="AIzaSyD2K1NnQskqsq17udp2vqYQF_We9kuvf6I"
+                  strokeWidth={4}
+                  strokeColor="red"
+                  mode={place.transportationMode.toUpperCase()}
+                />
+              )}
+              <Marker coordinate={waypoint} title={place.name} />
             </React.Fragment>
           );
         })}
@@ -55,7 +43,7 @@ const MapWithRoute = ({ route }) => {
 
       {/* Display the result information for each segment */}
       <View style={styles.resultContainer}>
-        {route.places.map((place, index) => (
+        {route.places.slice(0, -1).map((place, index) => (
           <View key={`result_${index}`} style={styles.segmentInfo}>
             <Text>Segment {index + 1}</Text>
             <Text>Duration: {place.transportDuration} min</Text>
