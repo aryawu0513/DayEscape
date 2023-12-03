@@ -12,9 +12,9 @@ const App = () => {
     <View style={styles.container}>
       {/* <CreateRouteScreen></CreateRouteScreen> */}
       {/* <CheckRouteScreen></CheckRouteScreen> */}
-      {/* <TransportationScreen></TransportationScreen> */}
+      <TransportationScreen></TransportationScreen>
       {/* <LocationScreen></LocationScreen> */}
-      <SingleNoteScreen></SingleNoteScreen>
+      {/* <SingleNoteScreen></SingleNoteScreen> */}
     </View>
   );
 };

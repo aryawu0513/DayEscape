@@ -12,10 +12,14 @@ import {
 import { fakeNote } from "../fake_note";
 
 function SingleNoteScreen() {
+  const [note, setNote] = useState(fakeNote[0]);
   const [value, onChangeText] = useState(fakeNote[0].note_description);
 
   const handleSaveNote = () => {
-    console.log("Note saved:", value);
+    setNote((prevNote) => {
+        return {...prevNote, note_description: value}
+    })
+    console.log(note);
   };
 
   return (
@@ -45,6 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+    borderColor: 'blue',
   },
 });
 

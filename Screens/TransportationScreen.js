@@ -3,11 +3,26 @@ import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { fakeRouteNoTransportation } from "../fake_route_no_transportation";
 import TransportPickerModal from "../Modals/TransportPickerModal";
+import { validRoute } from "../utils";
 
 const TransportationScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
   const [route, setRoute] = useState(fakeRouteNoTransportation);
+
+
+  const [testResult, setTestResult] = useState(null);
+
+  const handleButtonClick = async () => {
+    try {
+      const result = await validRoute(route);
+      setTestResult((prevresult) => {
+        return result;
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const orderedPlaces = route.places
     .slice()
@@ -43,6 +58,7 @@ const TransportationScreen = () => {
           mode="contained"
           labelStyle={styles.buttonText}
           title="Finished!"
+          onPress={handleButtonClick}
           disabled={canContinue}
         ></Button>
         {modalVisible && (
