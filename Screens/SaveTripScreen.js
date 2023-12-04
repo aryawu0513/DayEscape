@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import MapWithTrip from "../Components/MapWithTrip";
 import AddNameModal from "../Modals/AddNameModal";
 import StateContext from "../Components/StateContext";
+import { emptyTrip } from "../FakeData/empty_trip";
 
-const SaveTripScreen = () => {
+const SaveTripScreen = (props) => {
   const { tripProps } = useContext(StateContext);
   const { trip, setTrip } = tripProps;
   console.log("This is trip", trip);
@@ -20,21 +21,27 @@ const SaveTripScreen = () => {
 
   const saveTrip = (tripName) => {
     // call helper function to save the trip with the provided tripName
-    updateTripName(trip, tripName);
+    updateTripNameTime(trip, tripName);
+    //need to save the trip to firebase
     closeModal();
   };
 
   const deleteTrip = () => {
-    // Implement the logic to delete the trip
-    console.log("Deleting trip:", tripName);
+    // Implement the logic to delete the trip=not saving the trip = erasing the trip info??
+    //need to go back to the CreateTripScreen
+    // manually set the trip object to the empty trip object
+    props.navigation.navigate("CreateTripScreen");
+    console.log("Deleting trip:");
+    setTrip(emptyTrip);
     closeModal();
   };
 
   // Example of a generic function to update the trip name
-  function updateTripName(trip, tripName) {
+  function updateTripNameTime(trip, tripName) {
     setTrip({
       ...trip,
       tripName: tripName,
+      createTime: new Date().toISOString(), // Add timestamp
     });
   }
 
@@ -50,7 +57,7 @@ const SaveTripScreen = () => {
       {/* AddNameModal */}
       <AddNameModal
         visible={modalVisible}
-        onClose={closeModal}
+        onDelete={deleteTrip}
         onSave={(name) => {
           saveTrip(name);
         }}

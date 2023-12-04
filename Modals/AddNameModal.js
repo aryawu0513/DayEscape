@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Modal, StyleSheet } from "react-native";
 
-const AddNameModal = ({ visible, onClose, onSave, trip }) => {
+const AddNameModal = ({ visible, onDelete, onSave, trip }) => {
   const [tripName, setTripName] = useState("");
 
   const createTrip = () => {
@@ -28,7 +28,7 @@ const AddNameModal = ({ visible, onClose, onSave, trip }) => {
               onPress={createTrip}
               disabled={isCreateButtonDisabled}
             />
-            <Button title="Delete" onPress={onClose} />
+            <Button title="Delete" onPress={onDelete} />
           </View>
         </View>
       </View>
