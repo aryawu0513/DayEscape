@@ -3,8 +3,8 @@ import { View, Text, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 
-const MapWithRoute = ({ route }) => {
-  console.log("MapWithRoute is rendering.");
+const MapWithTrip = ({ trip }) => {
+  console.log("MapWithTrip is rendering.");
 
   return (
     <View style={styles.container}>
@@ -18,9 +18,9 @@ const MapWithRoute = ({ route }) => {
         }}
       >
         {/* Render individual MapViewDirections for each consecutive pair of waypoints */}
-        {route.places.map((place, index) => {
+        {trip.places.map((place, index) => {
           const waypoint = place.coordinates;
-          const nextPlace = route.places[index + 1];
+          const nextPlace = trip.places[index + 1];
           const nextWaypoint = nextPlace ? nextPlace.coordinates : null;
 
           return (
@@ -43,12 +43,15 @@ const MapWithRoute = ({ route }) => {
 
       {/* Display the result information for each segment */}
       <View style={styles.resultContainer}>
-        {route.places.slice(0, -1).map((place, index) => (
+        {trip.places.slice(0, -1).map((place, index) => (
           <View key={`result_${index}`} style={styles.segmentInfo}>
-            <Text>Segment {index + 1}</Text>
-            <Text>Duration: {place.transportDuration} min</Text>
+            <Text>{place.name}</Text>
+            <Text>
+              By {place.transportationMode}: {place.transportDuration} min
+            </Text>
           </View>
         ))}
+        <Text>{trip.places.slice(-1)[0].name}</Text>
       </View>
     </View>
   );
@@ -79,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MapWithRoute;
+export default MapWithTrip;

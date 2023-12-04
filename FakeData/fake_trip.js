@@ -1,8 +1,8 @@
-// fake_route.js
+// fake_trip.js
 
-export const fakeRoutes = [
+export const fakeTrips = [
   {
-    routeName: "Trip to Boston will succeed",
+    tripName: "Trip to Boston will succeed",
     createTime: "2023-11-27T12:01:30",
     places: [
       {
@@ -43,7 +43,7 @@ export const fakeRoutes = [
     ],
   },
   {
-    routeName: "Trip to Boston will fail at Trader Joes 21 min",
+    tripName: "Trip to Boston will fail at Trader Joes 21 min",
     createTime: "2023-11-28T19:30:03",
     places: [
       {
@@ -83,5 +83,5 @@ export const fakeRoutes = [
       },
     ],
   },
-  // Add more fake routes as needed
+  // Add more fake trips as needed
 ];

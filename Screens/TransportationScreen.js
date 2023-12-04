@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import { fakeRouteNoTransportation } from "../FakeData/fake_route_no_transportation";
+import { fakeTripNoTransportation } from "../FakeData/fake_trip_no_transportation";
 import TransportPickerModal from "../Modals/TransportPickerModal";
-import { validRoute } from "../utils";
+import { validTrip } from "../utils";
 import ErrorModal from "../Modals/ErrorModal";
-import MapWithRoute from "../Components/MapWithRoute";
+import MapWithTrip from "../Components/MapWithTrip";
 import { useNavigation } from "@react-navigation/native";
-import SaveRouteScreen from "./SaveRouteScreen";
+import SaveTripScreen from "./SaveTripScreen";
 
 const TransportationScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
-  const [route, setRoute] = useState(fakeRouteNoTransportation);
+  const [trip, setTrip] = useState(fakeTripNoTransportation);
   const [testResult, setTestResult] = useState(null);
   const [canContinue, setCanContinue] = useState(null);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
@@ -20,23 +20,23 @@ const TransportationScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const canContinue = route.places
+    const canContinue = trip.places
       .slice(0, -1)
       .every((place) => place.transportationMode !== null);
     setCanContinue(canContinue);
-  }, [route]);
+  }, [trip]);
 
-  const orderedPlaces = route.places
+  const orderedPlaces = trip.places
     .slice()
     .sort((a, b) => new Date(a.arriveTime) - new Date(b.arriveTime));
 
   const handleButtonClick = async () => {
     try {
-      const result = await validRoute(route);
+      const result = await validTrip(trip);
       setTestResult((prevresult) => {
         return result;
       });
-      setRoute(result.route);
+      setTrip(result.trip);
       if (!result.feasible) {
         setErrorModalVisible(true);
       }
@@ -53,7 +53,7 @@ const TransportationScreen = () => {
   return (
     <View style={styles.container}>
       {testResult !== null && testResult.feasible
-        ? navigation.navigate("SaveRouteScreen", route) //<MapWithRoute route={route}
+        ? navigation.navigate("SaveTripScreen", trip) //<MapWithTrip trip={trip}
         : testResult !== null && (
             <ErrorModal
               visible={errorModalVisible}
@@ -91,7 +91,7 @@ const TransportationScreen = () => {
           <TransportPickerModal
             onClose={setModalVisible}
             selected={selectedIndex}
-            onSave={setRoute}
+            onSave={setTrip}
           />
         )}
       </View>

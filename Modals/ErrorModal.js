@@ -9,7 +9,7 @@ const ErrorModal = ({ visible, onClose, result }) => {
     <Modal visible={visible} animationType="slide" transparent={true}>
       <View style={styles.modalContainer}>
         <View style={styles.errorModal}>
-          <Text>This route is not feasible!</Text>
+          <Text>This trip is not feasible!</Text>
           <Text>{`Failed at place: ${result.failedPlace}`}</Text>
           <Text>{`Late by: ${result.lateTime} minutes`}</Text>
           <Button title="OK" onPress={onClose} />

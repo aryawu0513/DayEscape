@@ -4,33 +4,33 @@ import MapView, { Marker, Callout } from "react-native-maps";
 import { locations } from "../FakeData/fake_locations";
 import TimePickerModal from "../Modals/TimePickerModal";
 
-const emptyRoute = {
-  routeName: null,
+const emptyTrip = {
+  tripName: null,
   createTime: null,
   places: [],
 };
 
-const CreateRouteScreen = () => {
+const CreateTripScreen = () => {
   const [selectedPin, setSelectedPin] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [route, setRoute] = useState(emptyRoute);
+  const [trip, setTrip] = useState(emptyTrip);
 
   function setModal(location) {
     setSelectedPin(location);
     setModalVisible(true);
   }
 
-  const sortedPlaces = route.places
+  const sortedPlaces = trip.places
     .slice()
     .sort((a, b) => a.arrivalTime - b.arrivalTime);
 
   return (
     <View style={styles.container}>
       <View style={styles.informationContainer}>
-        <Text>Create New Route</Text>
+        <Text>Create New Trip</Text>
         {modalVisible && (
           <TimePickerModal
-            onCreate={setRoute}
+            onCreate={setTrip}
             pin={selectedPin}
             onClose={setModalVisible}
           ></TimePickerModal>
@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateRouteScreen;
+export default CreateTripScreen;

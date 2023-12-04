@@ -1,37 +1,39 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 
-import CreateRouteScreen from "./Screens/CreateScreen";
+import CreateTripScreen from "./Screens/CreateScreen";
 import TransportationScreen from "./Screens/TransportationScreen";
 import PlacesScreen from "./Screens/PlacesScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
-import SaveRouteScreen from "./Screens/SaveRouteScreen";
-import { fakeRoutes } from "./FakeData/fake_route";
+import SaveTripScreen from "./Screens/SaveTripScreen";
+import { fakeTrips } from "./FakeData/fake_trip";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import MapWithTrip from "./Components/MapWithTrip";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     // <View style={styles.container}>
-    //   {/* <CreateRouteScreen></CreateRouteScreen> */}
+    //   {/* <CreateTripScreen></CreateTripScreen> */}
     //   {/* <TransportationScreen></TransportationScreen> */}
-    //   <SaveRouteScreen route={fakeRoutes[0]}></SaveRouteScreen>
+    <SaveTripScreen trip={fakeTrips[0]}></SaveTripScreen>
+    // <MapWithTrip trip={fakeTrips[0]}></MapWithTrip>
     //   {/* <LocationScreen></LocationScreen> */}
     //   {/* <SingleNoteScreen></SingleNoteScreen> */}
     // </View>
-    <NavigationContainer>
-      {/* Define your navigation stack */}
-      <Stack.Navigator>
-        <Stack.Screen
-          name="TransportationScreen"
-          component={TransportationScreen}
-        />
-        {/* ... other screens ... */}
-        <Stack.Screen name="SaveRouteScreen" component={SaveRouteScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   {/* Define your navigation stack */}
+    //   <Stack.Navigator>
+    //     <Stack.Screen
+    //       name="TransportationScreen"
+    //       component={TransportationScreen}
+    //     />
+    //     {/* ... other screens ... */}
+    //     <Stack.Screen name="SaveTripScreen" component={SaveTripScreen} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
   );
 };
 

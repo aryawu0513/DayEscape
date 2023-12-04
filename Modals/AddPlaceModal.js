@@ -10,7 +10,7 @@ import {
 
 const { width } = Dimensions.get("window");
 
-function AddPlaceModal({onClose}) {
+function AddPlaceModal({ onClose }) {
   const [name, setName] = useState("");
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
@@ -42,7 +42,7 @@ function AddPlaceModal({onClose}) {
             style={styles.textInput}
             onChangeText={(value) => setLatitude(value)}
           />
-          <Button title="Create" onPress={() => onClose(false)}/>
+          <Button title="Create" onPress={() => onClose(false)} />
         </View>
       </View>
     </Modal>

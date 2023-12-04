@@ -1,7 +1,7 @@
-// fake_route_no_transportation.js
+// fake_trip_no_transportation.js
 
-export const fakeRouteNoTransportation = {
-  routeName: "Trip to Boston will succeed",
+export const fakeTripNoTransportation = {
+  tripName: "Trip to Boston will succeed",
   createTime: "2023-11-27T12:01:30",
   places: [
     {

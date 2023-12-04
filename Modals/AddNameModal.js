@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Modal, StyleSheet } from "react-native";
 
-const AddNameModal = ({ visible, onClose, onSave, route }) => {
-  const [routeName, setRouteName] = useState("");
+const AddNameModal = ({ visible, onClose, onSave, trip }) => {
+  const [tripName, setTripName] = useState("");
 
-  const createRoute = () => {
-    onSave(routeName);
-    setRouteName("");
+  const createTrip = () => {
+    onSave(tripName);
+    setTripName("");
   };
 
-  const isCreateButtonDisabled = routeName.trim() === "";
+  const isCreateButtonDisabled = tripName.trim() === "";
 
   return (
     <Modal visible={visible} animationType="slide" transparent={true}>
@@ -17,15 +17,15 @@ const AddNameModal = ({ visible, onClose, onSave, route }) => {
         <View style={styles.modalContent}>
           <TextInput
             style={styles.input}
-            onChangeText={(text) => setRouteName(text)}
-            value={routeName}
-            placeholder="Enter Route Name"
+            onChangeText={(text) => setTripName(text)}
+            value={tripName}
+            placeholder="Enter Trip Name"
           />
-          <Text style={styles.routeText}>{JSON.stringify(route)}</Text>
+          <Text style={styles.tripText}>{JSON.stringify(trip)}</Text>
           <View style={styles.buttonContainer}>
             <Button
               title="Create"
-              onPress={createRoute}
+              onPress={createTrip}
               disabled={isCreateButtonDisabled}
             />
             <Button title="Delete" onPress={onClose} />
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingLeft: 10,
   },
-  routeText: {
+  tripText: {
     fontSize: 10,
     color: "black",
     marginTop: 10,

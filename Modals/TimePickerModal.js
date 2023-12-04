@@ -11,7 +11,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 const { width } = Dimensions.get("window");
 
-function TimePickerModal({onClose, pin, onCreate}) {
+function TimePickerModal({ onClose, pin, onCreate }) {
   const [arrivalTime, setArrivalTime] = useState(new Date(1598051730000));
   const [leaveTime, setLeaveTime] = useState(new Date(1598051730000));
 
@@ -24,23 +24,22 @@ function TimePickerModal({onClose, pin, onCreate}) {
     setLeaveTime(currentDate);
   };
 
-  function handleAddToRoute() {
+  function handleAddToTrip() {
     let newPlace = {
-        name: pin.name,
-        coordinates: pin.coordinates,
-        arrivalTime: arrivalTime,
-        leaveTime: leaveTime,
-        transportationMode: null,
-        transportDuration: null,
+      name: pin.name,
+      coordinates: pin.coordinates,
+      arrivalTime: arrivalTime,
+      leaveTime: leaveTime,
+      transportationMode: null,
+      transportDuration: null,
     };
-    onCreate((prevRoute) => {
-        const updatedPlaces = [...prevRoute.places, newPlace];
-        return {
-            ...prevRoute,
-            places: updatedPlaces,
-          };
-        }
-    );
+    onCreate((prevTrip) => {
+      const updatedPlaces = [...prevTrip.places, newPlace];
+      return {
+        ...prevTrip,
+        places: updatedPlaces,
+      };
+    });
     onClose(false);
   }
 
@@ -54,27 +53,27 @@ function TimePickerModal({onClose, pin, onCreate}) {
       <View style={styles.modalViewWrapper}>
         <View style={styles.modalView}>
           <Text>Select arrival time: {arrivalTime.toLocaleString()}</Text>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={arrivalTime}
-              mode={"time"}
-              is24Hour={true}
-              onChange={changeArrivalTime}
-            />
-        <Text>Select leave time: {leaveTime.toLocaleString()}</Text>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={leaveTime}
-              mode={"time"}
-              is24Hour={true}
-              onChange={changeLeaveTime}
-            />
-        <Button onPress={handleAddToRoute} title="Add to Route"/>
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={arrivalTime}
+            mode={"time"}
+            is24Hour={true}
+            onChange={changeArrivalTime}
+          />
+          <Text>Select leave time: {leaveTime.toLocaleString()}</Text>
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={leaveTime}
+            mode={"time"}
+            is24Hour={true}
+            onChange={changeLeaveTime}
+          />
+          <Button onPress={handleAddToTrip} title="Add to Trip" />
         </View>
       </View>
     </Modal>
   );
-};
+}
 
 const styles = StyleSheet.create({
   modalViewWrapper: {

@@ -24,14 +24,14 @@ function TransportPickerModal({ onClose, onSave, selected }) {
 
   function closeModal() {
     onClose(false);
-    onSave((prevRoute) => {
-      const updatedPlaces = [...prevRoute.places];
+    onSave((prevTrip) => {
+      const updatedPlaces = [...prevTrip.places];
       updatedPlaces[selected] = {
         ...updatedPlaces[selected],
         transportationMode: value,
       };
       return {
-        ...prevRoute,
+        ...prevTrip,
         places: updatedPlaces,
       };
     });

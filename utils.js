@@ -1,7 +1,7 @@
-export async function validRoute(route) {
-  for (let i = 0; i < route.places.length - 1; i++) {
-    const currentPlace = route.places[i];
-    const nextPlace = route.places[i + 1];
+export async function validTrip(trip) {
+  for (let i = 0; i < trip.places.length - 1; i++) {
+    const currentPlace = trip.places[i];
+    const nextPlace = trip.places[i + 1];
     // Check if transportationMode is null
     if (currentPlace.transportationMode === null) {
       console.error("Transportation mode is null for place", currentPlace.name);
@@ -12,7 +12,7 @@ export async function validRoute(route) {
       };
     }
 
-    // Call Google Maps Directions API to get real-life route and estimated travel time
+    // Call Google Maps Directions API to get real-life trip and estimated travel time
     try {
       console.log("Calling fetchDirections...");
       const directionsResponse = await fetchDirections(
@@ -22,7 +22,7 @@ export async function validRoute(route) {
       );
 
       const estimatedTravelTime = directionsResponse.duration.value / 60;
-      route = updateRouteDuration(route, i, estimatedTravelTime);
+      trip = updateTripDuration(trip, i, estimatedTravelTime);
 
       // Calculate actual arriving time at the succeeding place
       const actualArrivingTime = new Date(currentPlace.leaveTime);
@@ -35,14 +35,14 @@ export async function validRoute(route) {
       if (actualArrivingTime > new Date(nextPlace.arriveTime)) {
         // Trip segment is not feasible
         console.log(
-          "The route failed! at place",
+          "The trip failed! at place",
           nextPlace.name,
           "Late by",
           (actualArrivingTime - new Date(nextPlace.arriveTime)) / (1000 * 60)
         );
         return {
           feasible: false,
-          route: route,
+          trip: trip,
           failedPlace: nextPlace.name,
           lateTime:
             (actualArrivingTime - new Date(nextPlace.arriveTime)) / (1000 * 60),
@@ -58,10 +58,10 @@ export async function validRoute(route) {
       };
     }
   }
-  console.log("The route works!!");
-  console.log(route);
+  console.log("The trip works!!");
+  console.log(trip);
 
-  return { feasible: true, route: route };
+  return { feasible: true, trip: trip };
 }
 
 async function fetchDirections(origin, destination, mode) {
@@ -85,16 +85,16 @@ async function fetchDirections(origin, destination, mode) {
   }
 }
 
-// Example of a generic function to update the route
-function updateRouteDuration(route, index, transportDuration) {
-  const updatedPlaces = [...route.places];
+// Example of a generic function to update the trip
+function updateTripDuration(trip, index, transportDuration) {
+  const updatedPlaces = [...trip.places];
   updatedPlaces[index] = {
     ...updatedPlaces[index],
     transportDuration: transportDuration,
   };
 
   return {
-    ...route,
+    ...trip,
     places: updatedPlaces,
   };
 }
