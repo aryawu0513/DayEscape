@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { locations } from "../FakeData/fake_locations";
 import TimePickerModal from "../Modals/TimePickerModal";
+import StateContext from "../Components/StateContext";
 
-const emptyTrip = {
-  tripName: null,
-  createTime: null,
-  places: [],
-};
-
-const CreateTripScreen = () => {
+const CreateTripScreen = (props) => {
   const [selectedPin, setSelectedPin] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [trip, setTrip] = useState(emptyTrip);
+  const { tripProps } = useContext(StateContext);
+  const { trip, setTrip } = tripProps;
 
   function setModal(location) {
     setSelectedPin(location);
@@ -41,6 +37,10 @@ const CreateTripScreen = () => {
           </Text>
         ))}
       </View>
+      <Button
+        title="Create/go to transporation screen"
+        onPress={() => props.navigation.navigate("TransportationScreen")}
+      />
       <MapView
         style={styles.map}
         initialRegion={{

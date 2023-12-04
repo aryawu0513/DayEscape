@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import MapWithTrip from "../Components/MapWithTrip";
 import AddNameModal from "../Modals/AddNameModal";
+import StateContext from "../Components/StateContext";
 
-const SaveTripScreen = ({ trip }) => {
+const SaveTripScreen = () => {
+  const { tripProps } = useContext(StateContext);
+  const { trip, setTrip } = tripProps;
   console.log("This is trip", trip);
   console.log("This is name", trip.tripName);
   const [modalVisible, setModalVisible] = useState(false);
-  //const [savedTrip, setSavedTrip] = useState(trip);
   const openModal = () => {
     setModalVisible(true);
   };
@@ -18,9 +20,7 @@ const SaveTripScreen = ({ trip }) => {
 
   const saveTrip = (tripName) => {
     // call helper function to save the trip with the provided tripName
-    const updatedTrip = updateTripName(trip, tripName);
-    console.log("Saving trip:", updatedTrip);
-    //setSavedTrip(updatedTrip);
+    updateTripName(trip, tripName);
     closeModal();
   };
 
@@ -32,11 +32,10 @@ const SaveTripScreen = ({ trip }) => {
 
   // Example of a generic function to update the trip name
   function updateTripName(trip, tripName) {
-    //setTrip
-    return {
+    setTrip({
       ...trip,
       tripName: tripName,
-    };
+    });
   }
 
   return (

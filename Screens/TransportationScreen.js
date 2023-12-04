@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import { fakeTripNoTransportation } from "../FakeData/fake_trip_no_transportation";
 import TransportPickerModal from "../Modals/TransportPickerModal";
 import { validTrip } from "../utils";
 import ErrorModal from "../Modals/ErrorModal";
-import MapWithTrip from "../Components/MapWithTrip";
 import { useNavigation } from "@react-navigation/native";
-import SaveTripScreen from "./SaveTripScreen";
+import StateContext from "../Components/StateContext";
 
 const TransportationScreen = () => {
+  const { tripProps } = useContext(StateContext);
+  const { trip, setTrip } = tripProps;
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
-  const [trip, setTrip] = useState(fakeTripNoTransportation);
   const [testResult, setTestResult] = useState(null);
   const [canContinue, setCanContinue] = useState(null);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
@@ -53,7 +52,7 @@ const TransportationScreen = () => {
   return (
     <View style={styles.container}>
       {testResult !== null && testResult.feasible
-        ? navigation.navigate("SaveTripScreen", trip) //<MapWithTrip trip={trip}
+        ? navigation.navigate("SaveTripScreen") //<MapWithTrip trip={trip}
         : testResult !== null && (
             <ErrorModal
               visible={errorModalVisible}
