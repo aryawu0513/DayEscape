@@ -98,6 +98,21 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
     }
     onClose(false);
   }
+
+  function handleDeletePlace() {
+    if (existingPlace) {
+      // Delete the existing place from the trip
+      const updatedPlaces = trip.places.filter(
+        (place) => place.name !== existingPlace.name
+      );
+      onCreate({
+        ...trip,
+        places: updatedPlaces,
+      });
+      onClose(false);
+    }
+  }
+
   function handleClose() {
     onClose(false);
   }
@@ -131,6 +146,14 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
             onChange={changeLeaveTime}
           />
           <Button onPress={handleAddToTrip} title="Add to Trip" />
+          {existingPlace && (
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={handleDeletePlace}
+            >
+              <Text style={{ color: "red" }}>Delete Place</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </Modal>
