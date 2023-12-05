@@ -2,14 +2,8 @@ import React, { useState, useContext } from "react";
 import StateContext from "../Components/StateContext";
 
 import {
-  // for Firestore access
-  collection,
   doc,
-  addDoc,
   setDoc,
-  query,
-  where,
-  getDocs,
 } from "firebase/firestore";
 
 import {
@@ -27,43 +21,42 @@ function AddPlaceModal({ onClose }) {
   const [name, setName] = useState("");
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
-  const { firebaseProps } = useContext(StateContext);
+  const { firebaseProps, placeProps } = useContext(StateContext);
 
-  function closeModal() {
-    addPlaceToDB();
-    onClose(false);
-  }
-
-  async function addPlaceToDB() {
+  async function closeModal() {
     const timestamp = new Date().getTime();
     const timestampString = timestamp.toString();
 
-    // Add a new place in collection "places"
-    return setDoc(doc(firebaseProps.db, "places", timestampString), {
+    const newNote = {
+      id: timestampString,
+      place: name,
+      note_description: "",
+      related_trip: null,
+    };
+    
+    const newPlace = {
       id: timestampString,
       name: name,
-      coordinates: { longitude: longitude, latitude: latitude },
+      coordinates: {
+        longitude: parseFloat(longitude),
+        latitude: parseFloat(latitude),
+      },
+    };
+
+    placeProps.setListOfPlaces((prev) => {
+      return [...prev, newPlace];
     });
+    onClose(false);
+    await addPlaceToDB(newPlace, timestampString, newNote);
   }
 
-  async function addPlaceToDB() {
+  async function addPlaceToDB(newPlace, timestampString, newNote) {
     try {
-      const timestamp = new Date().getTime();
-      const timestampString = timestamp.toString();
 
       // Add a new place in collection "places"
-      await setDoc(doc(firebaseProps.db, "places", timestampString), {
-        id: timestampString,
-        name: name,
-        coordinates: { longitude: parseFloat(longitude), latitude: parseFloat(latitude) },
-      });
+      await setDoc(doc(firebaseProps.db, "places", timestampString), newPlace);
 
-      await setDoc(doc(firebaseProps.db, "persistent_notes", timestampString), {
-        id: timestampString,
-        place: name,
-        note_description: "",
-        related_trip: null,
-      });
+      await setDoc(doc(firebaseProps.db, "persistent_notes", timestampString), newNote);
     } catch (error) {
       console.error("Error adding place and note:", error.message);
       throw error;

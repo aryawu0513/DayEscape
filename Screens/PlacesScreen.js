@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect} from "react";
+import { useState, useContext, useEffect } from "react";
 import StateContext from "../Components/StateContext";
 
 import {
@@ -14,46 +14,50 @@ import {
 import { locations } from "../FakeData/fake_locations";
 import AddPlaceModal from "../Modals/AddPlaceModal";
 
-import { // for Firestore access
-  collection, doc, addDoc, setDoc,
-  query, where, getDocs
+import {
+  collection,
+  getDocs,
 } from "firebase/firestore";
-
 
 function PlacesScreen(navigationProps) {
   const [modal, setModal] = useState(false);
   const [places, setPlaces] = useState([]);
-  const { firebaseProps, placeProps} = useContext(StateContext);
-  const { place, setPlace} = placeProps;
+  const { firebaseProps, placeProps } = useContext(StateContext);
+  const { place, setPlace, listOfPlaces, setListOfPlaces } = placeProps;
 
   useEffect(() => {
     // Call the function when the component mounts
     getPlaces();
-  }, [modal]);
+  }, []);
 
   async function getPlaces() {
-    const q = collection(firebaseProps.db, 'places');
+    const q = collection(firebaseProps.db, "places");
     try {
       // Get all documents from the "places" collection
       const querySnapshot = await getDocs(q);
-  
+
       // Extract the data from each document
       const placesData = querySnapshot.docs.map((doc) => doc.data());
       setPlaces(placesData);
+      setListOfPlaces(placesData);
     } catch (error) {
-      console.error('Error getting places:', error.message);
+      console.error("Error getting places:", error.message);
       throw error;
     }
   }
 
-  function pressedListItem (place) {
+  function pressedListItem(place) {
     setPlace(place);
-    navigationProps.navigation.navigate("SingleNoteScreen")
+    navigationProps.navigation.navigate("SingleNoteScreen");
   }
 
   const ListItem = (locationProps) => {
     return (
-      <TouchableOpacity onPress = {() =>{pressedListItem(locationProps.place)}}>
+      <TouchableOpacity
+        onPress={() => {
+          pressedListItem(locationProps.place);
+        }}
+      >
         <View style={styles.listItem}>
           <Text style={styles.listItemTitle}>{locationProps.text}</Text>
         </View>
@@ -73,7 +77,7 @@ function PlacesScreen(navigationProps) {
         {modal && <AddPlaceModal onClose={setModal}></AddPlaceModal>}
       </View>
       <FlatList
-        data={places}
+        data={listOfPlaces}
         renderItem={({ item, index }) => {
           return (
             <ListItem text={item.name} id={item.id} place={item}></ListItem>

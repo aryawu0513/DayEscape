@@ -59,7 +59,7 @@ export async function validTrip(trip) {
     }
   }
   console.log("The trip works!!");
-  console.log(trip);
+  //console.log(trip);
 
   return { feasible: true, trip: trip };
 }

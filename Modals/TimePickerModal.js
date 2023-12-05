@@ -96,6 +96,7 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
         };
       });
     }
+    console.log("closing modal");
     onClose(false);
   }
 

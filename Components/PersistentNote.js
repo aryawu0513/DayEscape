@@ -51,7 +51,6 @@ function PersistentNote(props) {
   }, []);
 
   async function getNote() {
-    console.log(placeProps);
     const q = doc(firebaseProps.db, "persistent_notes", placeProps.place.id);
 
     try {
