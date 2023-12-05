@@ -68,6 +68,7 @@ const CreateTripScreen = (props) => {
             key={index}
             coordinate={location.coordinates}
             title={location.name}
+            pinColor={trip.places.some((place) => place.name === location.name ) ? "blue": "red"}
             onPress={() => handleMarkerPress(location)}
           />
         ))}
