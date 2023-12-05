@@ -55,7 +55,7 @@ function AddPlaceModal({ onClose }) {
       await setDoc(doc(firebaseProps.db, "places", timestampString), {
         id: timestampString,
         name: name,
-        coordinates: { longitude: longitude, latitude: latitude },
+        coordinates: { longitude: parseFloat(longitude), latitude: parseFloat(latitude) },
       });
 
       await setDoc(doc(firebaseProps.db, "persistent_notes", timestampString), {
@@ -87,15 +87,15 @@ function AddPlaceModal({ onClose }) {
           />
           <TextInput
             placeholder="Latitude"
-            value={longitude}
-            style={styles.textInput}
-            onChangeText={(value) => setLongitude(value)}
-          />
-          <TextInput
-            placeholder="Longitude"
             value={latitude}
             style={styles.textInput}
             onChangeText={(value) => setLatitude(value)}
+          />
+          <TextInput
+            placeholder="Longitude"
+            value={longitude}
+            style={styles.textInput}
+            onChangeText={(value) => setLongitude(value)}
           />
           <Button title="Create" onPress={() => closeModal()} />
         </View>
