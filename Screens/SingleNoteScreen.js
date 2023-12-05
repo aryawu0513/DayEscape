@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useEffect, useContext} from "react";
 import {
   Text,
   SafeAreaView,
@@ -12,28 +12,68 @@ import StateContext from "../Components/StateContext";
 
 import { // for Firestore access
   collection, doc, addDoc, setDoc,
-  query, where, getDocs
+  query, updateDoc, getDoc
 } from "firebase/firestore";
 
 import { fakeNote } from "../FakeData/fake_note";
 
 function SingleNoteScreen(props){
   const { firebaseProps } = useContext(StateContext);
-  console.log(firebaseProps);
-  const [note, setNote] = useState(fakeNote[0]);
-  const [value, onChangeText] = useState(fakeNote[0].note_description);
+  const { placeProps } = useContext(StateContext);
+  const [note, setNote] = useState(null);
+  const [value, onChangeText] = useState("");
 
-  const handleSaveNote = () => {
+/*   const handleSaveNote = () => {
     setNote((prevNote) => {
       return { ...prevNote, note_description: value };
     });
     console.log(note);
+  }; */
+  
+
+  async function updateNoteDescription() {
+    try {
+      const docRef = doc(firebaseProps.db, 'persistent_notes', placeProps.place);
+
+      // Assuming 'note_description' is the field you want to update
+      const newData = {
+        note_description: value, // Set your updated value here
+      };
+
+      await updateDoc(docRef, newData);
+
+      // After updating, you might want to fetch the updated data again
+      getNote();
+    } catch (error) {
+      console.error('Error updating note description:', error.message);
+    }
   };
+
+  useEffect(() => {
+    getNote();
+  }, []);
+
+  async function getNote() {
+    const q = doc(firebaseProps.db, 'persistent_notes', placeProps.place);
+
+    try {
+      // Get the document from the "persistent_notes" collection where placeId matches
+      const querySnapshot = await getDoc(q);
+      const noteData = querySnapshot.data();
+      setNote(noteData);
+      onChangeText(noteData.note_description);
+    } catch (error) {
+      console.error('Error getting note:', error.message);
+      throw error;
+    }
+  }
+
+  console.log(note);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.titleText}>Trader Joe's</Text>
+        <Text style={styles.titleText}>{note ? note.place : "loading"}</Text>
         <TextInput
           editable
           multiline
@@ -49,7 +89,7 @@ function SingleNoteScreen(props){
           mode="contained"
           labelStyle={styles.buttonText}
           title="Save Note"
-          onPress={handleSaveNote}
+          onPress={updateNoteDescription}
         ></Button>
       </SafeAreaView>
     </TouchableWithoutFeedback>

@@ -29,11 +29,13 @@ function AddPlaceModal({ onClose }) {
   }
 
   async function addPlaceToDB() {
-    const timestampString = new Date().toString();
+    const timestamp = new Date().getTime();
+    const timestampString = timestamp.toString();
 
     // Add a new place in collection "places"
     return setDoc(doc(firebaseProps.db, "places", timestampString), 
       {
+        'id': timestampString,
         'name': name, 
         'coordinates': {"longitude": longitude, "latitude":latitude}, 
       }

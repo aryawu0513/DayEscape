@@ -23,7 +23,8 @@ import { // for Firestore access
 function PlacesScreen(navigationProps) {
   const [modal, setModal] = useState(false);
   const [places, setPlaces] = useState([]);
-  const { firebaseProps } = useContext(StateContext);
+  const { firebaseProps, placeProps} = useContext(StateContext);
+  const { place, setPlace} = placeProps;
 
   useEffect(() => {
     // Call the function when the component mounts
@@ -38,16 +39,21 @@ function PlacesScreen(navigationProps) {
   
       // Extract the data from each document
       const placesData = querySnapshot.docs.map((doc) => doc.data());
-      setPlaces(placesData);;
+      setPlaces(placesData);
     } catch (error) {
       console.error('Error getting places:', error.message);
       throw error;
     }
   }
 
+  function pressedListItem (locationID) {
+    setPlace(locationID);
+    navigationProps.navigation.navigate("SingleNoteScreen")
+  }
+
   const ListItem = (locationProps) => {
     return (
-      <TouchableOpacity onPress = {() => navigationProps.navigation.navigate("SingleNoteScreen")}>
+      <TouchableOpacity onPress = {() =>{pressedListItem(locationProps.id)}}>
         <View style={styles.listItem}>
           <Text style={styles.listItemTitle}>{locationProps.text}</Text>
         </View>
@@ -70,7 +76,7 @@ function PlacesScreen(navigationProps) {
         data={places}
         renderItem={({ item, index }) => {
           return (
-            <ListItem text={item.name} id={index} location={item}></ListItem>
+            <ListItem text={item.name} id={item.id} location={item}></ListItem>
           );
         }}
         keyExtractor={(item, index) => index}
