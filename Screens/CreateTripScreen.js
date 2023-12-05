@@ -22,10 +22,8 @@ const CreateTripScreen = (props) => {
       (place) => place.name === location.name
     );
 
-    if (existingPlace) {
-      // If the place already exists, open the TimePickerModal with existing time values
-      setExistingPlace(existingPlace);
-    }
+    setExistingPlace(existingPlace);
+
     setModal(location);
   };
 
