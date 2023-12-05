@@ -46,14 +46,14 @@ function PlacesScreen(navigationProps) {
     }
   }
 
-  function pressedListItem (locationID) {
-    setPlace(locationID);
+  function pressedListItem (place) {
+    setPlace(place);
     navigationProps.navigation.navigate("SingleNoteScreen")
   }
 
   const ListItem = (locationProps) => {
     return (
-      <TouchableOpacity onPress = {() =>{pressedListItem(locationProps.id)}}>
+      <TouchableOpacity onPress = {() =>{pressedListItem(locationProps.place)}}>
         <View style={styles.listItem}>
           <Text style={styles.listItemTitle}>{locationProps.text}</Text>
         </View>
@@ -76,7 +76,7 @@ function PlacesScreen(navigationProps) {
         data={places}
         renderItem={({ item, index }) => {
           return (
-            <ListItem text={item.name} id={item.id} location={item}></ListItem>
+            <ListItem text={item.name} id={item.id} place={item}></ListItem>
           );
         }}
         keyExtractor={(item, index) => index}

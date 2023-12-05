@@ -1,9 +1,15 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import StateContext from "../Components/StateContext";
 
-import { // for Firestore access
-  collection, doc, addDoc, setDoc,
-  query, where, getDocs
+import {
+  // for Firestore access
+  collection,
+  doc,
+  addDoc,
+  setDoc,
+  query,
+  where,
+  getDocs,
 } from "firebase/firestore";
 
 import {
@@ -23,7 +29,7 @@ function AddPlaceModal({ onClose }) {
   const [latitude, setLatitude] = useState("");
   const { firebaseProps } = useContext(StateContext);
 
-  function closeModal () {
+  function closeModal() {
     addPlaceToDB();
     onClose(false);
   }
@@ -33,13 +39,35 @@ function AddPlaceModal({ onClose }) {
     const timestampString = timestamp.toString();
 
     // Add a new place in collection "places"
-    return setDoc(doc(firebaseProps.db, "places", timestampString), 
-      {
-        'id': timestampString,
-        'name': name, 
-        'coordinates': {"longitude": longitude, "latitude":latitude}, 
-      }
-    );
+    return setDoc(doc(firebaseProps.db, "places", timestampString), {
+      id: timestampString,
+      name: name,
+      coordinates: { longitude: longitude, latitude: latitude },
+    });
+  }
+
+  async function addPlaceToDB() {
+    try {
+      const timestamp = new Date().getTime();
+      const timestampString = timestamp.toString();
+
+      // Add a new place in collection "places"
+      await setDoc(doc(firebaseProps.db, "places", timestampString), {
+        id: timestampString,
+        name: name,
+        coordinates: { longitude: longitude, latitude: latitude },
+      });
+
+      await setDoc(doc(firebaseProps.db, "persistent_notes", timestampString), {
+        id: timestampString,
+        place: name,
+        note_description: "",
+        related_trip: null,
+      });
+    } catch (error) {
+      console.error("Error adding place and note:", error.message);
+      throw error;
+    }
   }
 
   return (
