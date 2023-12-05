@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import {
   Text,
   SafeAreaView,
@@ -8,10 +8,18 @@ import {
   Keyboard,
   Button,
 } from "react-native";
+import StateContext from "../Components/StateContext";
+
+import { // for Firestore access
+  collection, doc, addDoc, setDoc,
+  query, where, getDocs
+} from "firebase/firestore";
 
 import { fakeNote } from "../FakeData/fake_note";
 
-function SingleNoteScreen() {
+function SingleNoteScreen(props){
+  const { firebaseProps } = useContext(StateContext);
+  console.log(firebaseProps);
   const [note, setNote] = useState(fakeNote[0]);
   const [value, onChangeText] = useState(fakeNote[0].note_description);
 

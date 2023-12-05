@@ -1,17 +1,30 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet} from "react-native";
 
 import CreateTripScreen from "./Screens/CreateTripScreen.js";
 import TransportationScreen from "./Screens/TransportationScreen";
 import PlacesScreen from "./Screens/PlacesScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
 import SaveTripScreen from "./Screens/SaveTripScreen";
+
+import StateContext from "./Components/StateContext.js";
+import { emptyTrip } from "./FakeData/empty_trip.js";
 import { fakeTrips } from "./FakeData/fake_trip";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import StateContext from "./Components/StateContext.js";
-import { emptyTrip } from "./FakeData/empty_trip.js";
+
+
+import { firebaseConfig } from './firebaseConfig.js'
+import { initializeApp } from 'firebase/app';
+import { // access to Firestore features:
+  getFirestore, 
+} from "firebase/firestore";
+
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -50,7 +63,8 @@ export default function App() {
   const signInUser = (username) => setSignedInUser(username);
   const signOutUser = () => setSignedInUser(null);
   const signedInProps = { signedInUser, signInUser, signOutUser };
-  const screenProps = { tripProps, signedInProps };
+  const firebaseProps = {db};
+  const screenProps = { tripProps, signedInProps , firebaseProps};
   // The above is equivalent to:
   console.log(trip);
   return (

@@ -1,4 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
+import StateContext from "../Components/StateContext";
+
+import { // for Firestore access
+  collection, doc, addDoc, setDoc,
+  query, where, getDocs
+} from "firebase/firestore";
+
 import {
   StyleSheet,
   View,
@@ -14,6 +21,24 @@ function AddPlaceModal({ onClose }) {
   const [name, setName] = useState("");
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
+  const { firebaseProps } = useContext(StateContext);
+
+  function closeModal () {
+    addPlaceToDB();
+    onClose(false);
+  }
+
+  async function addPlaceToDB() {
+    const timestampString = new Date().toString();
+
+    // Add a new place in collection "places"
+    return setDoc(doc(firebaseProps.db, "places", timestampString), 
+      {
+        'name': name, 
+        'coordinates': {"longitude": longitude, "latitude":latitude}, 
+      }
+    );
+  }
 
   return (
     <Modal
@@ -42,7 +67,7 @@ function AddPlaceModal({ onClose }) {
             style={styles.textInput}
             onChangeText={(value) => setLatitude(value)}
           />
-          <Button title="Create" onPress={() => onClose(false)} />
+          <Button title="Create" onPress={() => closeModal()} />
         </View>
       </View>
     </Modal>

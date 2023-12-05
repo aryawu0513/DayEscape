@@ -1,3 +1,6 @@
+import { useState, useContext, useEffect} from "react";
+import StateContext from "../Components/StateContext";
+
 import {
   Text,
   FlatList,
@@ -10,15 +13,43 @@ import {
 
 import { locations } from "../FakeData/fake_locations";
 import AddPlaceModal from "../Modals/AddPlaceModal";
-import { useState } from "react";
 
-function PlacesScreen() {
+import { // for Firestore access
+  collection, doc, addDoc, setDoc,
+  query, where, getDocs
+} from "firebase/firestore";
+
+
+function PlacesScreen(navigationProps) {
   const [modal, setModal] = useState(false);
-  const ListItem = (props) => {
+  const [places, setPlaces] = useState([]);
+  const { firebaseProps } = useContext(StateContext);
+
+  useEffect(() => {
+    // Call the function when the component mounts
+    getPlaces();
+  }, [modal]);
+
+  async function getPlaces() {
+    const q = collection(firebaseProps.db, 'places');
+    try {
+      // Get all documents from the "places" collection
+      const querySnapshot = await getDocs(q);
+  
+      // Extract the data from each document
+      const placesData = querySnapshot.docs.map((doc) => doc.data());
+      setPlaces(placesData);;
+    } catch (error) {
+      console.error('Error getting places:', error.message);
+      throw error;
+    }
+  }
+
+  const ListItem = (locationProps) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress = {() => navigationProps.navigation.navigate("SingleNoteScreen")}>
         <View style={styles.listItem}>
-          <Text style={styles.listItemTitle}>{props.text}</Text>
+          <Text style={styles.listItemTitle}>{locationProps.text}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -36,7 +67,7 @@ function PlacesScreen() {
         {modal && <AddPlaceModal onClose={setModal}></AddPlaceModal>}
       </View>
       <FlatList
-        data={locations}
+        data={places}
         renderItem={({ item, index }) => {
           return (
             <ListItem text={item.name} id={index} location={item}></ListItem>
