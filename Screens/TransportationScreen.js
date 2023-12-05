@@ -7,7 +7,7 @@ import ErrorModal from "../Modals/ErrorModal";
 import { useNavigation } from "@react-navigation/native";
 import StateContext from "../Components/StateContext";
 
-const TransportationScreen = () => {
+const TransportationScreen = (props) => {
   const { tripProps } = useContext(StateContext);
   const { trip, setTrip } = tripProps;
   const [modalVisible, setModalVisible] = useState(false);
@@ -52,7 +52,7 @@ const TransportationScreen = () => {
   return (
     <View style={styles.container}>
       {testResult !== null && testResult.feasible
-        ? navigation.navigate("SaveTripScreen") //<MapWithTrip trip={trip}
+        ? props.navigation.navigate("SaveTripScreen") //<MapWithTrip trip={trip}
         : testResult !== null && (
             <ErrorModal
               visible={errorModalVisible}

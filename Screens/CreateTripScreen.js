@@ -7,6 +7,7 @@ import StateContext from "../Components/StateContext";
 
 const CreateTripScreen = (props) => {
   const [selectedPin, setSelectedPin] = useState(null);
+  const [existingPlace, setExistingPlace] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const { tripProps } = useContext(StateContext);
   const { trip, setTrip } = tripProps;
@@ -15,6 +16,18 @@ const CreateTripScreen = (props) => {
     setSelectedPin(location);
     setModalVisible(true);
   }
+
+  const handleMarkerPress = (location) => {
+    const existingPlace = trip.places.find(
+      (place) => place.name === location.name
+    );
+
+    if (existingPlace) {
+      // If the place already exists, open the TimePickerModal with existing time values
+      setExistingPlace(existingPlace);
+    }
+    setModal(location);
+  };
 
   const sortedPlaces = trip.places
     .slice()
@@ -29,6 +42,8 @@ const CreateTripScreen = (props) => {
             onCreate={setTrip}
             pin={selectedPin}
             onClose={setModalVisible}
+            trip={trip}
+            existingPlace={existingPlace}
           ></TimePickerModal>
         )}
         {sortedPlaces.map((place, index) => (
@@ -55,7 +70,7 @@ const CreateTripScreen = (props) => {
             key={index}
             coordinate={location.coordinates}
             title={location.name}
-            onPress={(e) => setModal(location)}
+            onPress={() => handleMarkerPress(location)}
           />
         ))}
       </MapView>
