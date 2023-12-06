@@ -5,12 +5,61 @@ import AddNameModal from "../Modals/AddNameModal";
 import StateContext from "../Components/StateContext";
 import { emptyTrip } from "../FakeData/empty_trip";
 
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
+
 const SaveTripScreen = (props) => {
-  const { tripProps } = useContext(StateContext);
+  const { tripProps, firebaseProps } = useContext(StateContext);
   const { trip, setTrip } = tripProps;
   console.log("This is trip", trip);
   console.log("This is name", trip.tripName);
   const [modalVisible, setModalVisible] = useState(false);
+
+  async function addTripToDB(inputTrip, timestampString) {
+    try {
+      const newTrip = { ...inputTrip, createTime: timestampString };
+      await setDoc(doc(firebaseProps.db, "trips", timestampString), newTrip);
+      setTrip(newTrip);
+    } catch (error) {
+      console.error("Error adding trip:", error.message);
+      throw error;
+    }
+  }
+
+  async function addNotesToTrip(inputTrip) {
+    const timestamp = new Date().getTime();
+    const timestampString = timestamp.toString();
+    const newTrip = inputTrip;
+    const notes = [];
+    try {
+      await Promise.all(
+        trip.places.map(async (place) => {
+          const doc_note = doc(firebaseProps.db, "persistent_notes", place.id);
+          const doc_place = doc(firebaseProps.db, "places", place.id);
+
+          const querySnapshot_note = await getDoc(doc_note);
+          const querySnapshot_place = await getDoc(doc_place);
+
+          const placeData = querySnapshot_place.data();
+          const noteData = querySnapshot_note.data();
+
+          const newData = {
+            routes: [...placeData.routes, timestampString], // Set your updated value here
+          };
+
+          notes.push(noteData);
+          await updateDoc(doc_place, newData);
+
+          console.log("this is updated", newTrip);
+        })
+      );
+      const newTrip = { ...inputTrip, notes: notes };
+      await addTripToDB(newTrip, timestampString);
+    } catch (error) {
+      console.error("Error adding notes to trip:", error.message);
+      throw error;
+    }
+  }
+
   const openModal = () => {
     setModalVisible(true);
   };
@@ -19,11 +68,13 @@ const SaveTripScreen = (props) => {
     setModalVisible(false);
   };
 
-  const saveTrip = (tripName) => {
+  const saveTrip = async (tripName) => {
     // call helper function to save the trip with the provided tripName
-    updateTripNameTime(trip, tripName);
+    const newTrip = { ...trip, tripName: tripName };
+    //updateTripNameTime(trip, tripName);
     //need to save the trip to firebase
     closeModal();
+    await addNotesToTrip(newTrip);
   };
 
   const deleteTrip = () => {

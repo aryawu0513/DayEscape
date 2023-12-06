@@ -41,6 +41,7 @@ function AddPlaceModal({ onClose }) {
         longitude: parseFloat(longitude),
         latitude: parseFloat(latitude),
       },
+      routes: [],
     };
 
     placeProps.setListOfPlaces((prev) => {

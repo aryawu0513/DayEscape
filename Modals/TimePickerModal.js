@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import {
   StyleSheet,
   View,
@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Icon from "react-native-vector-icons/FontAwesome";
+import StateContext from "../Components/StateContext";
+
 
 const { width } = Dimensions.get("window");
 
@@ -23,6 +25,8 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
   const [leaveTime, setLeaveTime] = useState(
     existingPlace ? new Date(existingPlace.leaveTime) : new Date()
   );
+  const { placeProps} = useContext(StateContext);
+  const { place } = placeProps;
 
   const changeArrivalTime = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -87,6 +91,7 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
         leaveTime: leaveTime,
         transportationMode: null,
         transportDuration: null,
+        id: place.id,
       };
       onCreate((prevTrip) => {
         const updatedPlaces = [...prevTrip.places, newPlace];

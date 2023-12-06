@@ -47,11 +47,10 @@ const CreateTripScreen = (props) => {
   }
 
   const handleMarkerPress = (location) => {
-    console.log("marker is pressed");
     const existingPlace = trip.places.find(
       (place) => place.name === location.name
     );
-    console.log("found exisitng place", existingPlace);
+    setPlace(location);
     setExistingPlace(existingPlace);
     setModal(location);
   };
