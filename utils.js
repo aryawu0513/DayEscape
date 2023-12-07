@@ -2,6 +2,7 @@ export async function validTrip(trip) {
   for (let i = 0; i < trip.places.length - 1; i++) {
     const currentPlace = trip.places[i];
     const nextPlace = trip.places[i + 1];
+    console.log("going from", currentPlace.name, "to", nextPlace.name);
     // Check if transportationMode is null
     if (currentPlace.transportationMode === null) {
       console.error("Transportation mode is null for place", currentPlace.name);
@@ -32,20 +33,21 @@ export async function validTrip(trip) {
       //console.log("actualArrivingTime", actualArrivingTime);
 
       // Check if the user can get to the next place on time
-      if (actualArrivingTime > new Date(nextPlace.arriveTime)) {
+      if (actualArrivingTime > new Date(nextPlace.arrivalTime)) {
         // Trip segment is not feasible
         console.log(
           "The trip failed! at place",
           nextPlace.name,
           "Late by",
-          (actualArrivingTime - new Date(nextPlace.arriveTime)) / (1000 * 60)
+          (actualArrivingTime - new Date(nextPlace.arrivalTime)) / (1000 * 60)
         );
         return {
           feasible: false,
           trip: trip,
           failedPlace: nextPlace.name,
           lateTime:
-            (actualArrivingTime - new Date(nextPlace.arriveTime)) / (1000 * 60),
+            (actualArrivingTime - new Date(nextPlace.arrivalTime)) /
+            (1000 * 60),
         };
       }
     } catch (error) {

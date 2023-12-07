@@ -30,6 +30,7 @@ function TransportPickerModal({ onClose, onSave, selected }) {
         ...updatedPlaces[selected],
         transportationMode: value,
       };
+      console.log("setting mode for", updatedPlaces[selected], value);
       return {
         ...prevTrip,
         places: updatedPlaces,

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 
 import CreateTripScreen from "./Screens/CreateTripScreen.js";
 import TransportationScreen from "./Screens/TransportationScreen";
 import PlacesScreen from "./Screens/PlacesScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
+import TripsScreen from "./Screens/TripsScreen.js";
 import SaveTripScreen from "./Screens/SaveTripScreen";
 
 import StateContext from "./Components/StateContext.js";
@@ -15,13 +16,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-
-import { firebaseConfig } from './firebaseConfig.js'
-import { initializeApp } from 'firebase/app';
-import { // access to Firestore features:
-  getFirestore, 
+import { firebaseConfig } from "./firebaseConfig.js";
+import { initializeApp } from "firebase/app";
+import {
+  // access to Firestore features:
+  getFirestore,
 } from "firebase/firestore";
-
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
@@ -51,7 +51,7 @@ const PlaceStack = () => (
 
 const TripStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="NoteScreen" component={NoteScreen} />
+    <Stack.Screen name="TripsScreen" component={TripsScreen} />
   </Stack.Navigator>
 );
 
@@ -65,9 +65,9 @@ export default function App() {
   const signInUser = (username) => setSignedInUser(username);
   const signOutUser = () => setSignedInUser(null);
   const signedInProps = { signedInUser, signInUser, signOutUser };
-  const firebaseProps = {db};
-  const placeProps = {place, setPlace, listOfPlaces, setListOfPlaces};
-  const screenProps = { tripProps, signedInProps , firebaseProps, placeProps};
+  const firebaseProps = { db };
+  const placeProps = { place, setPlace, listOfPlaces, setListOfPlaces };
+  const screenProps = { tripProps, signedInProps, firebaseProps, placeProps };
   // The above is equivalent to:
   //console.log(trip);
   return (

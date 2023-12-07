@@ -16,16 +16,16 @@ const TransportationScreen = (props) => {
   const [canContinue, setCanContinue] = useState(null);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
 
+  trip.places = trip.places
+    .slice()
+    .sort((a, b) => new Date(a.arrivalTime) - new Date(b.arrivalTime));
+
   useEffect(() => {
     const canContinue = trip.places
       .slice(0, -1)
       .every((place) => place.transportationMode !== null);
     setCanContinue(canContinue);
   }, [trip]);
-
-  const orderedPlaces = trip.places
-    .slice()
-    .sort((a, b) => new Date(a.arriveTime) - new Date(b.arriveTime));
 
   const handleButtonClick = async () => {
     try {
@@ -64,10 +64,10 @@ const TransportationScreen = (props) => {
           each pair of points
         </Text>
         <View>
-          {orderedPlaces.map((place, index) => (
+          {trip.places.map((place, index) => (
             <View key={index}>
               <Text>{place.name}</Text>
-              {index != orderedPlaces.length - 1 && (
+              {index != trip.places.length - 1 && (
                 <Text>{`Transportation mode: ${
                   place.transportationMode
                     ? place.transportationMode
@@ -101,15 +101,15 @@ const TransportationScreen = (props) => {
           longitudeDelta: 0.02,
         }}
       >
-        {orderedPlaces.map((place, index) => (
+        {trip.places.map((place, index) => (
           <Marker
             key={index}
             coordinate={place.coordinates}
             title={place.name}
           />
         ))}
-        {orderedPlaces.map((place, index) => {
-          const nextPlace = orderedPlaces[index + 1];
+        {trip.places.map((place, index) => {
+          const nextPlace = trip.places[index + 1];
           if (nextPlace) {
             return (
               <Polyline
