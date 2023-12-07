@@ -18,8 +18,8 @@ import {
 } from "firebase/firestore";
 
 function TripNote(props) {
-  const { tripProps, firebaseProps } = useContext(StateContext);
-  const { trip, setTrip } = tripProps;
+  const { selectedTripProps, firebaseProps } = useContext(StateContext);
+  const { selectedTrip, setSelectedTrip } = selectedTripProps;
   const { db } = firebaseProps;
   const { placeProps } = useContext(StateContext);
   const [notes, setNotes] = useState(null);
@@ -39,7 +39,8 @@ function TripNote(props) {
       });
 
       // Update the 'notes' field in the trip object
-      const updatedTrip = { ...trip, notes: newNotes };
+      const updatedTrip = { ...selectedTrip, notes: newNotes };
+      console.log("OMGOMG", updatedTrip.tripName);
 
       await updateDoc(docRef, updatedTrip);
 
