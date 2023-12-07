@@ -7,6 +7,7 @@ import PlacesScreen from "./Screens/PlacesScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
 import TripsScreen from "./Screens/TripsScreen.js";
 import SaveTripScreen from "./Screens/SaveTripScreen";
+import TripInfoScreen from "./Screens/TripInfoScreen";
 
 import StateContext from "./Components/StateContext.js";
 import { emptyTrip } from "./FakeData/empty_trip.js";
@@ -52,6 +53,7 @@ const PlaceStack = () => (
 const TripStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="TripsScreen" component={TripsScreen} />
+    <Stack.Screen name="TripInfoScreen" component={TripInfoScreen} />
   </Stack.Navigator>
 );
 

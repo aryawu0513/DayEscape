@@ -10,9 +10,11 @@ import {
 import StateContext from "../Components/StateContext";
 import { collection, getDocs } from "firebase/firestore";
 
-function TripsScreen({ props }) {
-  const [trips, setTrips] = useState([]);
-  const { firebaseProps } = useContext(StateContext);
+function TripsScreen(props) {
+  const { tripProps, firebaseProps } = useContext(StateContext);
+  const { trip, setTrip } = tripProps;
+  const { db } = firebaseProps;
+  const [allTrips, setAllTrips] = useState([]);
 
   useEffect(() => {
     // Call the function when the component mounts
@@ -20,7 +22,7 @@ function TripsScreen({ props }) {
   }, []);
 
   async function getTrips() {
-    console.log("Getting Trips");
+    //console.log("Getting Trips");
     const q = collection(firebaseProps.db, "trips");
     try {
       // Get all documents from the "routes" collection
@@ -28,8 +30,8 @@ function TripsScreen({ props }) {
 
       // Extract the data from each document
       const tripsData = querySnapshot.docs.map((doc) => doc.data());
-      setTrips(tripsData);
-      console.log("Setted trip with", tripsData);
+      //console.log("tripsData", tripsData);
+      setAllTrips(tripsData);
     } catch (error) {
       console.error("Error getting routes:", error.message);
       throw error;
@@ -37,19 +39,21 @@ function TripsScreen({ props }) {
   }
 
   function pressedListItem(trip) {
-    console.log("NEED TO NAVIGATE TO ", trip);
-    //props.navigation.navigate("TripInfoScreen", { trip });
+    //console.log("one trip", trip);
+    setTrip(trip);
+    props.navigation.navigate("TripInfoScreen");
   }
 
-  const ListItem = ({ trip }) => {
+  const ListItem = (TripProps) => {
+    //cconsole.log("This prop looks like:", TripProps);
     return (
       <TouchableOpacity
         onPress={() => {
-          pressedListItem(trip);
+          pressedListItem(TripProps.trip);
         }}
       >
         <View style={styles.listItem}>
-          <Text style={styles.listItemTitle}>{trip.tripName}</Text>
+          <Text style={styles.listItemTitle}>{TripProps.trip.tripName}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -62,7 +66,7 @@ function TripsScreen({ props }) {
       </View>
 
       <FlatList
-        data={trips}
+        data={allTrips}
         renderItem={({ item, index }) => {
           return <ListItem trip={item}></ListItem>;
         }}
