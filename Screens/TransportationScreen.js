@@ -64,9 +64,9 @@ const TransportationScreen = (props) => {
             />
           )}
       <View style={styles.informationContainer}>
-        <Text>
+        <Text style={styles.textalert}>
           Click on the gray line to select your mode of transportation between
-          each pair of points
+          each pair of points!
         </Text>
         <View>
           {trip.places.map((place, index) => (
@@ -161,9 +161,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderRadius: 5,
-    margin: 10,
-    // width: "100%",
-    // height: "100%",
+    width: "100%",
+  },
+  textalert: {
+    paddingBottom: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#808080",
   },
 });
 

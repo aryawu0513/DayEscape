@@ -22,7 +22,7 @@ const CreateTripScreen = (props) => {
   const [existingPlace, setExistingPlace] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [places, setPlaces] = useState([]);
-
+  const [canContinue, setCanContinue] = useState(null);
   const { tripProps, firebaseProps, placeProps } = useContext(StateContext);
   const { trip, setTrip } = tripProps;
   const { place, setPlace, listOfPlaces, setListOfPlaces } = placeProps;
@@ -43,6 +43,10 @@ const CreateTripScreen = (props) => {
       throw error;
     }
   }
+  useEffect(() => {
+    const canContinue = trip.places.length >= 2;
+    setCanContinue(canContinue);
+  }, [trip]);
 
   useEffect(() => {
     getFirebasePlaces();
@@ -68,7 +72,7 @@ const CreateTripScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.informationContainer}>
+      <View>
         <Text style={styles.titleText}>Create New Trip</Text>
         {modalVisible && (
           <TimePickerModal
@@ -86,6 +90,7 @@ const CreateTripScreen = (props) => {
         ))}
       </View>
       <Button
+        disabled={!canContinue}
         title="Create Trip"
         onPress={() => props.navigation.navigate("TransportationScreen")}
       />
@@ -131,11 +136,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  informationContainer: {
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
-  },
+
   titleText: {
     fontSize: 20,
   },

@@ -63,13 +63,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+    // padding: 20,
     width: "100%",
     height: "100%",
   },
   map: {
     flex: 2,
-    padding: 20,
     ...StyleSheet.absoluteFillObject,
     // alignSelf: "center", // Align the map in the center horizontally
     // justifyContent: "center", // Align the map in the center vertically
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
   resultContainer: {
     backgroundColor: "white",
     borderRadius: 5,
-    margin: 10,
+    padding: 10,
     width: "100%",
   },
   segmentInfo: {

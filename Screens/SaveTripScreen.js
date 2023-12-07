@@ -10,9 +10,10 @@ import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 const SaveTripScreen = (props) => {
   const { tripProps, firebaseProps } = useContext(StateContext);
   const { trip, setTrip } = tripProps;
-  console.log("This is trip", trip);
-  console.log("This is name", trip.tripName);
+  // console.log("This is trip", trip);
+  // console.log("This is name", trip.tripName);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isSaveButtonClicked, setSaveButtonClicked] = useState(false);
 
   async function addTripToDB(inputTrip, timestampString) {
     try {
@@ -63,6 +64,7 @@ const SaveTripScreen = (props) => {
 
   const closeModal = () => {
     setModalVisible(false);
+    setSaveButtonClicked(true);
   };
 
   const saveTrip = async (tripName) => {
@@ -85,12 +87,15 @@ const SaveTripScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text>This is the SaveTripScreen!</Text>
-      <Text>{trip.tripName}</Text>
-      <MapWithTrip trip={trip} />
-
+      <Text style={styles.titleText}>Details of Trip {trip.tripName}</Text>
       {/* Save Trip Button */}
-      <Button title="Save Trip" onPress={openModal} />
+      <Button
+        title="Save Trip"
+        onPress={openModal}
+        disabled={isSaveButtonClicked}
+      />
+
+      <MapWithTrip trip={trip} />
 
       {/* AddNameModal */}
       <AddNameModal
@@ -118,6 +123,10 @@ const styles = StyleSheet.create({
     flex: 2,
     width: "100%",
     height: "100%",
+  },
+
+  titleText: {
+    fontSize: 20,
   },
 });
 
