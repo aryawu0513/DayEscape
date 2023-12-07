@@ -45,7 +45,6 @@ const CreateTripScreen = (props) => {
   }
 
   useEffect(() => {
-    //setTrip(emptyTrip); //  this is causing the invalid attempt to spread non-iterable instance??
     getFirebasePlaces();
   }, []);
 
