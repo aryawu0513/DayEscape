@@ -7,42 +7,35 @@ import {
 } from "react-native";
 import StateContext from "../Components/StateContext";
 import PersistentNote from "../Components/PersistentNote";
+import PastNote from "../Components/PastNote";
 
 import { // for Firestore access
   collection, doc, addDoc, setDoc,
   query, updateDoc, getDoc
 } from "firebase/firestore";
 
-import { fakeNote } from "../FakeData/fake_note";
 
-function SingleNoteScreen(props){
+function SingleNoteScreen(props) {
   const { firebaseProps } = useContext(StateContext);
-  const { placeProps } = useContext(StateContext);
-  const [current, setCurrent] = useState(null);
+  const { noteProps } = useContext(StateContext);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>{placeProps.place.name}</Text>
-      </View>
+      <SafeAreaView style={styles.titleContainer}>
+        <Text style={styles.titleText}>{noteProps.selectedPlace.name}</Text>
+      </SafeAreaView>
       <PersistentNote></PersistentNote>
+      <PastNote></PastNote>
     </SafeAreaView>
-    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
     width: "100%",
-    height: "100%",
-    alignItems: "center",
-  },
-  textContainer: {
-    width: "100%",
-    backgroundColor: "#F5F5F5",
-    padding: 15,
-    lineHeight: 24,
+    alignItems: "flex-start", // Change "left" to "flex-start"
   },
   titleContainer: {
     padding: 20,

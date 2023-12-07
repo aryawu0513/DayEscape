@@ -22,8 +22,9 @@ import {
 function PlacesScreen(navigationProps) {
   const [modal, setModal] = useState(false);
   const [places, setPlaces] = useState([]);
-  const { firebaseProps, placeProps } = useContext(StateContext);
-  const { place, setPlace, listOfPlaces, setListOfPlaces } = placeProps;
+  const { firebaseProps, placeProps, noteProps} = useContext(StateContext);
+  const { listOfPlaces, setListOfPlaces } = placeProps;
+  const { selectedPlace, setSelectedPlace } = noteProps;
 
   useEffect(() => {
     // Call the function when the component mounts
@@ -47,7 +48,7 @@ function PlacesScreen(navigationProps) {
   }
 
   function pressedListItem(place) {
-    setPlace(place);
+    setSelectedPlace(place);
     navigationProps.navigation.navigate("SingleNoteScreen");
   }
 

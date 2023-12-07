@@ -19,7 +19,7 @@ import {
 
 function PersistentNote(props) {
   const { firebaseProps } = useContext(StateContext);
-  const { placeProps } = useContext(StateContext);
+  const { noteProps } = useContext(StateContext);
   const [note, setNote] = useState(null);
   const [value, onChangeText] = useState("");
 
@@ -28,7 +28,7 @@ function PersistentNote(props) {
       const docRef = doc(
         firebaseProps.db,
         "persistent_notes",
-        placeProps.place.id
+        noteProps.selectedPlace.id
       );
 
       // Assuming 'note_description' is the field you want to update
@@ -50,7 +50,7 @@ function PersistentNote(props) {
   }, []);
 
   async function getNote() {
-    const q = doc(firebaseProps.db, "persistent_notes", placeProps.place.id);
+    const q = doc(firebaseProps.db, "persistent_notes", noteProps.selectedPlace.id);
 
     try {
       // Get the document from the "persistent_notes" collection where placeId matches
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    height: "100%",
     alignItems: "center",
   },
   textContainer: {

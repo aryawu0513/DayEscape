@@ -61,6 +61,7 @@ export default function App() {
   const [trip, setTrip] = useState(emptyTrip);
   const [selectedTrip, setSelectedTrip] = useState(emptyTrip);
   const [place, setPlace] = useState(null);
+  const [selectedPlace, setSelectedPlace] = useState(null);
   const [listOfPlaces, setListOfPlaces] = useState(null);
   const tripProps = { trip, setTrip };
   const selectedTripProps = { selectedTrip, setSelectedTrip };
@@ -71,12 +72,14 @@ export default function App() {
   const signedInProps = { signedInUser, signInUser, signOutUser };
   const firebaseProps = { db };
   const placeProps = { place, setPlace, listOfPlaces, setListOfPlaces };
+  const noteProps = { selectedPlace, setSelectedPlace };
   const screenProps = {
     tripProps,
     selectedTripProps,
     signedInProps,
     firebaseProps,
     placeProps,
+    noteProps
   };
   // The above is equivalent to:
   //console.log(trip);
