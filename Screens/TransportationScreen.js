@@ -16,8 +16,6 @@ const TransportationScreen = (props) => {
   const [canContinue, setCanContinue] = useState(null);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
 
-  const navigation = useNavigation();
-
   useEffect(() => {
     const canContinue = trip.places
       .slice(0, -1)

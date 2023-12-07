@@ -28,7 +28,6 @@ const SaveTripScreen = (props) => {
   async function addNotesToTrip(inputTrip) {
     const timestamp = new Date().getTime();
     const timestampString = timestamp.toString();
-    const newTrip = inputTrip;
     const notes = [];
     try {
       await Promise.all(
@@ -48,8 +47,6 @@ const SaveTripScreen = (props) => {
 
           notes.push(noteData);
           await updateDoc(doc_place, newData);
-
-          console.log("this is updated", newTrip);
         })
       );
       const newTrip = { ...inputTrip, notes: notes };
@@ -71,7 +68,6 @@ const SaveTripScreen = (props) => {
   const saveTrip = async (tripName) => {
     // call helper function to save the trip with the provided tripName
     const newTrip = { ...trip, tripName: tripName };
-    //updateTripNameTime(trip, tripName);
     //need to save the trip to firebase
     closeModal();
     await addNotesToTrip(newTrip);
@@ -86,15 +82,6 @@ const SaveTripScreen = (props) => {
     setTrip(emptyTrip);
     closeModal();
   };
-
-  // Example of a generic function to update the trip name
-  function updateTripNameTime(trip, tripName) {
-    setTrip({
-      ...trip,
-      tripName: tripName,
-      createTime: new Date().toISOString(), // Add timestamp
-    });
-  }
 
   return (
     <View style={styles.container}>
