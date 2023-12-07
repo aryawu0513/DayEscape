@@ -15,13 +15,12 @@ import PersistentNote from "../Components/PersistentNote";
 import TripNote from "../Components/TripNote";
 
 const TripInfoScreen = (props) => {
-  const { tripProps, firebaseProps } = useContext(StateContext);
-  const { trip, setTrip } = tripProps;
+  const { selectedTripProps, firebaseProps } = useContext(StateContext);
+  const { selectedTrip, setSelectedTrip } = selectedTripProps;
   const { db } = firebaseProps;
-  const [selectedTrip, setSelectedTrip] = useState(trip);
 
   // Assuming that route.params.tripId contains the ID of the selected trip
-  const tripId = trip.createTime;
+  const tripId = selectedTrip.createTime;
 
   useEffect(() => {
     getTrip();

@@ -59,9 +59,11 @@ const TripStack = () => (
 
 export default function App() {
   const [trip, setTrip] = useState(emptyTrip);
+  const [selectedTrip, setSelectedTrip] = useState(emptyTrip);
   const [place, setPlace] = useState(null);
   const [listOfPlaces, setListOfPlaces] = useState(null);
   const tripProps = { trip, setTrip };
+  const selectedTripProps = { selectedTrip, setSelectedTrip };
   // "global" signed-in state for App shared by screens
   const [signedInUser, setSignedInUser] = useState(null);
   const signInUser = (username) => setSignedInUser(username);
@@ -69,7 +71,13 @@ export default function App() {
   const signedInProps = { signedInUser, signInUser, signOutUser };
   const firebaseProps = { db };
   const placeProps = { place, setPlace, listOfPlaces, setListOfPlaces };
-  const screenProps = { tripProps, signedInProps, firebaseProps, placeProps };
+  const screenProps = {
+    tripProps,
+    selectedTripProps,
+    signedInProps,
+    firebaseProps,
+    placeProps,
+  };
   // The above is equivalent to:
   //console.log(trip);
   return (

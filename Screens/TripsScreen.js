@@ -11,8 +11,8 @@ import StateContext from "../Components/StateContext";
 import { collection, getDocs } from "firebase/firestore";
 
 function TripsScreen(props) {
-  const { tripProps, firebaseProps } = useContext(StateContext);
-  const { trip, setTrip } = tripProps;
+  const { selectedTripProps, firebaseProps } = useContext(StateContext);
+  const { selectedTrip, setSelectedTrip } = selectedTripProps;
   const { db } = firebaseProps;
   const [allTrips, setAllTrips] = useState([]);
 
@@ -40,7 +40,7 @@ function TripsScreen(props) {
 
   function pressedListItem(trip) {
     //console.log("one trip", trip);
-    setTrip(trip);
+    setSelectedTrip(trip);
     props.navigation.navigate("TripInfoScreen");
   }
 
