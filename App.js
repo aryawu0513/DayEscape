@@ -63,8 +63,9 @@ export default function App() {
   const [place, setPlace] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [listOfPlaces, setListOfPlaces] = useState(null);
+  const [hasDelete, setHasDelete] = useState(null);
   const tripProps = { trip, setTrip };
-  const selectedTripProps = { selectedTrip, setSelectedTrip };
+  const selectedTripProps = { selectedTrip, setSelectedTrip, hasDelete, setHasDelete};
   // "global" signed-in state for App shared by screens
   const [signedInUser, setSignedInUser] = useState(null);
   const signInUser = (username) => setSignedInUser(username);

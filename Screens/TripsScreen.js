@@ -12,14 +12,15 @@ import { collection, getDocs } from "firebase/firestore";
 
 function TripsScreen(props) {
   const { selectedTripProps, firebaseProps } = useContext(StateContext);
-  const { selectedTrip, setSelectedTrip } = selectedTripProps;
+  const { selectedTrip, setSelectedTrip, hasDelete, setHasDelete} = selectedTripProps;
   const { db } = firebaseProps;
   const [allTrips, setAllTrips] = useState([]);
 
   useEffect(() => {
     // Call the function when the component mounts
     getTrips();
-  }, []);
+    setHasDelete(false);
+  }, [hasDelete]);
 
   async function getTrips() {
     //console.log("Getting Trips");
@@ -70,7 +71,7 @@ function TripsScreen(props) {
         renderItem={({ item, index }) => {
           return <ListItem trip={item}></ListItem>;
         }}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => item.createTime}
       />
     </SafeAreaView>
   );

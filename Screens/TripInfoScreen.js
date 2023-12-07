@@ -16,7 +16,7 @@ import TripNote from "../Components/TripNote";
 
 const TripInfoScreen = (props) => {
   const { selectedTripProps, firebaseProps } = useContext(StateContext);
-  const { selectedTrip, setSelectedTrip } = selectedTripProps;
+  const { selectedTrip, setSelectedTrip, hasDelete, setHasDelete } = selectedTripProps;
   const { db } = firebaseProps;
 
   // Assuming that route.params.tripId contains the ID of the selected trip
@@ -43,9 +43,19 @@ const TripInfoScreen = (props) => {
   // Function to delete the trip
   const deleteTrip = async () => {
     const q = doc(db, "trips", tripId);
+    await Promise.all(
+      selectedTrip.places.map(async (place) => {
+        const q_place = doc(db, "places", place.id);
+        const querySnapshot = await getDoc(q_place);
+        const placeData = querySnapshot.data();
+        placeData.routes = placeData.routes.filter((id) => id !== tripId);
+        await updateDoc(q_place, placeData);
+      })
+    );
     await deleteDoc(q);
-    setSelectedTrip(emptyTrip);
+    //setSelectedTrip(emptyTrip);
     // Navigate back to the previous screen
+    setHasDelete(true);
     props.navigation.goBack();
   };
 
