@@ -71,7 +71,10 @@ const TransportationScreen = (props) => {
         <View>
           {trip.places.map((place, index) => (
             <View key={index}>
-              <Text>{place.name}</Text>
+              {/* <Text>{place.name}</Text> */}
+              <Text style={styles.places} key={index}>
+                {index + 1}: {place.name}
+              </Text>
               {index != trip.places.length - 1 && (
                 <Text>{`Transportation mode: ${
                   place.transportationMode
@@ -168,6 +171,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     color: "#808080",
+  },
+  places: {
+    padding: 5,
   },
 });
 

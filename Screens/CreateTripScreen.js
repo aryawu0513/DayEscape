@@ -84,7 +84,7 @@ const CreateTripScreen = (props) => {
           ></TimePickerModal>
         )}
         {sortedPlaces.map((place, index) => (
-          <Text key={index}>
+          <Text style={styles.places} key={index}>
             {index + 1}: {place.name}
           </Text>
         ))}
@@ -138,7 +138,12 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
+    textAlign: "center",
     fontSize: 20,
+    paddingBottom: 5,
+  },
+  places: {
+    padding: 5,
   },
 });
 
