@@ -99,13 +99,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textContainer: {
-    width: "100%",
-    backgroundColor: "#F5F5F5",
-    padding: 15,
+    backgroundColor: "white",
+    padding: 30,
+    flex: 1,
+    width: "95%",
+    height: "100%",
+    borderRadius: 20,
     lineHeight: 24,
+    color: "#444444",
   },
   titleText: {
-    fontSize: 15,
+    fontSize: 20,
     padding: 15,
   },
 });

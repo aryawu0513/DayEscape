@@ -25,11 +25,14 @@ function PastNote() {
 
   console.log("Displaying past notes for", selectedPlace.name);
 
-  const NoteItem = (note) => {
+  const NoteItem = (note, trip) => {
     return (
-      <Text key={note.id} style={styles.textContainer}>
+      <View key={note.id} style={styles.noteContainer}>
+        <Text style={styles.titleText}>#{trip.tripName}</Text>
+        <Text style={styles.textContainer}>
         {note.note_description}
       </Text>
+      </View>
     );
   };
 
@@ -47,7 +50,7 @@ function PastNote() {
           const relatedNote = tripData.notes.find(
             (note) => note.id === selectedPlace.id
           );
-          relatedNoteArray.push(relatedNote);
+          relatedNoteArray.push({relatedNote: relatedNote, trip:tripData});
         })
       );
     } catch (error) {
@@ -69,7 +72,7 @@ function PastNote() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titleText}>Past Notes</Text>
-      {notes && notes.map((note) => NoteItem(note))}
+      {notes && notes.map((note) => NoteItem(note.relatedNote, note.trip))}
     </SafeAreaView>
   );
 }
@@ -81,14 +84,22 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
   },
+  noteContainer: {
+    backgroundColor: "white",
+    padding: 15,
+    flex: 1,
+    width: "95%",
+    height: "100%",
+    borderRadius: 20,
+  },
   textContainer: {
     width: "100%",
-    backgroundColor: "#F5F5F5",
-    padding: 15,
     lineHeight: 24,
+    padding: 15,
+    color: "#444444",
   },
   titleText: {
-    fontSize: 15,
+    fontSize: 20,
     padding: 15,
   },
 });
