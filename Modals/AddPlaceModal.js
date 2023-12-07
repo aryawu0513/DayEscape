@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import StateContext from "../Components/StateContext";
 import MapView, { Marker } from "react-native-maps";
 import { doc, setDoc } from "firebase/firestore";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
   StyleSheet,
@@ -10,6 +11,7 @@ import {
   Modal,
   Button,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 
 const { width } = Dimensions.get("window");
@@ -64,6 +66,10 @@ function AddPlaceModal({ onClose }) {
     setCoordinates(coordinate);
   };
 
+  function handleClose() {
+    onClose(false);
+  }
+
   return (
     <Modal
       animationType="slide"
@@ -73,6 +79,9 @@ function AddPlaceModal({ onClose }) {
     >
       <View style={styles.modalViewWrapper}>
         <View style={styles.modalView}>
+          <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
+            <Icon name="times" size={20} color="#333" />
+          </TouchableOpacity>
           <TextInput
             placeholder="Enter name..."
             value={name}
@@ -134,6 +143,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "80%",
     height: 200,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
 });
 

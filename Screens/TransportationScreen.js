@@ -21,6 +21,11 @@ const TransportationScreen = (props) => {
     .sort((a, b) => new Date(a.arrivalTime) - new Date(b.arrivalTime));
 
   useEffect(() => {
+    // Set testResult to null when the component mounts
+    setTestResult(null);
+  }, []); // Empty dependency array ensures this effect runs only once on mount
+
+  useEffect(() => {
     const canContinue = trip.places
       .slice(0, -1)
       .every((place) => place.transportationMode !== null);

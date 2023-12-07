@@ -69,7 +69,7 @@ const CreateTripScreen = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.informationContainer}>
-        <Text>Create New Trip</Text>
+        <Text style={styles.titleText}>Create New Trip</Text>
         {modalVisible && (
           <TimePickerModal
             onCreate={setTrip}
@@ -86,7 +86,7 @@ const CreateTripScreen = (props) => {
         ))}
       </View>
       <Button
-        title="Create/go to transporation screen"
+        title="Create Trip"
         onPress={() => props.navigation.navigate("TransportationScreen")}
       />
       <MapView
@@ -132,10 +132,12 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   informationContainer: {
-    backgroundColor: "white",
     padding: 10,
     borderRadius: 5,
     margin: 10,
+  },
+  titleText: {
+    fontSize: 20,
   },
 });
 

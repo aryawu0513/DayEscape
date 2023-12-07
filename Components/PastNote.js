@@ -27,7 +27,9 @@ function PastNote() {
 
   const NoteItem = (note) => {
     return (
-        <Text key={note.id} style={styles.textContainer}>{note.note_description}</Text>
+      <Text key={note.id} style={styles.textContainer}>
+        {note.note_description}
+      </Text>
     );
   };
 
@@ -65,7 +67,7 @@ function PastNote() {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.titleText}>Past Notes</Text>
       {notes && notes.map((note) => NoteItem(note))}
     </SafeAreaView>
@@ -73,15 +75,17 @@ function PastNote() {
 }
 
 const styles = StyleSheet.create({
-  noteContainer: {
+  container: {
+    flex: 1,
     width: "100%",
-    alignItems: "left",
-    marginBottom: 10, // Add some margin to separate notes
+    height: "100%",
+    alignItems: "center",
   },
   textContainer: {
     width: "100%",
     backgroundColor: "#F5F5F5",
     padding: 15,
+    lineHeight: 24,
   },
   titleText: {
     fontSize: 15,
