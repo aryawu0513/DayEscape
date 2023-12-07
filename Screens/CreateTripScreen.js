@@ -5,10 +5,17 @@ import { locations } from "../FakeData/fake_locations";
 import TimePickerModal from "../Modals/TimePickerModal";
 import StateContext from "../Components/StateContext";
 
-import { // for Firestore access
-  collection, doc, addDoc, setDoc,
-  query, where, getDocs
+import {
+  // for Firestore access
+  collection,
+  doc,
+  addDoc,
+  setDoc,
+  query,
+  where,
+  getDocs,
 } from "firebase/firestore";
+import { emptyTrip } from "../FakeData/empty_trip";
 
 const CreateTripScreen = (props) => {
   const [selectedPin, setSelectedPin] = useState(null);
@@ -16,28 +23,29 @@ const CreateTripScreen = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [places, setPlaces] = useState([]);
 
-  const { tripProps, firebaseProps, placeProps} = useContext(StateContext);
+  const { tripProps, firebaseProps, placeProps } = useContext(StateContext);
   const { trip, setTrip } = tripProps;
-  const { place, setPlace, listOfPlaces, setListOfPlaces} = placeProps;
+  const { place, setPlace, listOfPlaces, setListOfPlaces } = placeProps;
   const { db } = firebaseProps;
 
   async function getFirebasePlaces() {
-    const q = collection(db, 'places');
+    const q = collection(db, "places");
     try {
       // Get all documents from the "places" collection
       const querySnapshot = await getDocs(q);
-  
+
       // Extract the data from each document
       const placesData = querySnapshot.docs.map((doc) => doc.data());
       setPlaces(placesData);
       setListOfPlaces(placesData);
     } catch (error) {
-      console.error('Error getting places:', error.message);
+      console.error("Error getting places:", error.message);
       throw error;
     }
   }
 
   useEffect(() => {
+    //setTrip(emptyTrip); //  this is causing the invalid attempt to spread non-iterable instance??
     getFirebasePlaces();
   }, []);
 
@@ -91,15 +99,20 @@ const CreateTripScreen = (props) => {
           longitudeDelta: 0.02,
         }}
       >
-        {listOfPlaces && listOfPlaces.map((location, index) => (
-          <Marker
-            key={index}
-            coordinate={location.coordinates}
-            title={location.name}
-            pinColor={trip.places.some((place) => place.name === location.name ) ? "blue": "red"}
-            onPress={() => handleMarkerPress(location)}
-          />
-        ))}
+        {listOfPlaces &&
+          listOfPlaces.map((location, index) => (
+            <Marker
+              key={index}
+              coordinate={location.coordinates}
+              title={location.name}
+              pinColor={
+                trip.places.some((place) => place.name === location.name)
+                  ? "blue"
+                  : "red"
+              }
+              onPress={() => handleMarkerPress(location)}
+            />
+          ))}
       </MapView>
     </View>
   );

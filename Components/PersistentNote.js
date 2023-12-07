@@ -23,7 +23,6 @@ function PersistentNote(props) {
   const [note, setNote] = useState(null);
   const [value, onChangeText] = useState("");
 
-
   async function updateNoteDescription() {
     try {
       const docRef = doc(
