@@ -27,11 +27,9 @@ function PastNote() {
 
   const NoteItem = (note, trip) => {
     return (
-      <View key={note.id} style={styles.noteContainer}>
+      <View key={trip.createTime} style={styles.noteContainer}>
         <Text style={styles.titleText}>#{trip.tripName}</Text>
-        <Text style={styles.textContainer}>
-        {note.note_description}
-      </Text>
+        <Text style={styles.textContainer}>{note.note_description}</Text>
       </View>
     );
   };
@@ -50,7 +48,7 @@ function PastNote() {
           const relatedNote = tripData.notes.find(
             (note) => note.id === selectedPlace.id
           );
-          relatedNoteArray.push({relatedNote: relatedNote, trip:tripData});
+          relatedNoteArray.push({ relatedNote: relatedNote, trip: tripData });
         })
       );
     } catch (error) {
@@ -91,6 +89,7 @@ const styles = StyleSheet.create({
     width: "95%",
     height: "100%",
     borderRadius: 20,
+    margin: 10,
   },
   textContainer: {
     width: "100%",

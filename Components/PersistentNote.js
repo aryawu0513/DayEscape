@@ -6,8 +6,8 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  Button,
 } from "react-native";
+import { Button } from 'react-native-paper';
 import StateContext from "../Components/StateContext";
 
 import {
@@ -50,7 +50,11 @@ function PersistentNote(props) {
   }, []);
 
   async function getNote() {
-    const q = doc(firebaseProps.db, "persistent_notes", noteProps.selectedPlace.id);
+    const q = doc(
+      firebaseProps.db,
+      "persistent_notes",
+      noteProps.selectedPlace.id
+    );
 
     try {
       // Get the document from the "persistent_notes" collection where placeId matches
@@ -82,11 +86,11 @@ function PersistentNote(props) {
           style={styles.textContainer}
         />
         <Button
-          mode="contained"
-          labelStyle={styles.buttonText}
+          mode="text"
           title="Save Note"
+          textColor={"#215ED5"}
           onPress={updateNoteDescription}
-        ></Button>
+        >Save Note</Button>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -97,11 +101,14 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
+    bottom: 10,
   },
   textContainer: {
     backgroundColor: "white",
     padding: 30,
+    paddingTop: 20,
     flex: 1,
+    minHeight: 100,
     width: "95%",
     height: "100%",
     borderRadius: 20,
