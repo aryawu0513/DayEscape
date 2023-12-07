@@ -1,10 +1,7 @@
 import React, { useState, useContext } from "react";
 import StateContext from "../Components/StateContext";
-
-import {
-  doc,
-  setDoc,
-} from "firebase/firestore";
+import MapView, { Marker } from "react-native-maps";
+import { doc, setDoc } from "firebase/firestore";
 
 import {
   StyleSheet,
@@ -19,8 +16,9 @@ const { width } = Dimensions.get("window");
 
 function AddPlaceModal({ onClose }) {
   const [name, setName] = useState("");
-  const [longitude, setLongitude] = useState("");
-  const [latitude, setLatitude] = useState("");
+  const [coordinates, setCoordinates] = useState(null);
+  // const [longitude, setLongitude] = useState("");
+  // const [latitude, setLatitude] = useState("");
   const { firebaseProps, placeProps } = useContext(StateContext);
 
   async function closeModal() {
@@ -31,16 +29,12 @@ function AddPlaceModal({ onClose }) {
       id: timestampString,
       place: name,
       note_description: "",
-      related_trip: null,
     };
-    
+
     const newPlace = {
       id: timestampString,
       name: name,
-      coordinates: {
-        longitude: parseFloat(longitude),
-        latitude: parseFloat(latitude),
-      },
+      coordinates: coordinates,
       routes: [],
     };
 
@@ -53,16 +47,22 @@ function AddPlaceModal({ onClose }) {
 
   async function addPlaceToDB(newPlace, timestampString, newNote) {
     try {
-
       // Add a new place in collection "places"
       await setDoc(doc(firebaseProps.db, "places", timestampString), newPlace);
 
-      await setDoc(doc(firebaseProps.db, "persistent_notes", timestampString), newNote);
+      await setDoc(
+        doc(firebaseProps.db, "persistent_notes", timestampString),
+        newNote
+      );
     } catch (error) {
       console.error("Error adding place and note:", error.message);
       throw error;
     }
   }
+  const handleMapClick = (event) => {
+    const { coordinate } = event.nativeEvent;
+    setCoordinates(coordinate);
+  };
 
   return (
     <Modal
@@ -79,18 +79,20 @@ function AddPlaceModal({ onClose }) {
             style={styles.textInput}
             onChangeText={(value) => setName(value)}
           />
-          <TextInput
-            placeholder="Latitude"
-            value={latitude}
-            style={styles.textInput}
-            onChangeText={(value) => setLatitude(value)}
-          />
-          <TextInput
-            placeholder="Longitude"
-            value={longitude}
-            style={styles.textInput}
-            onChangeText={(value) => setLongitude(value)}
-          />
+          <MapView
+            style={styles.map}
+            onPress={handleMapClick}
+            initialRegion={{
+              latitude: 42.34,
+              longitude: -71.09,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.02,
+            }}
+          >
+            {coordinates && (
+              <Marker coordinate={coordinates} title="Selected Location" />
+            )}
+          </MapView>
           <Button title="Create" onPress={() => closeModal()} />
         </View>
       </View>
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
     left: "50%",
     elevation: 5,
     transform: [{ translateX: -(width * 0.4) }, { translateY: -90 }],
-    height: 250,
+    height: 300,
     width: width * 0.8,
     backgroundColor: "#fff",
     borderRadius: 7,
@@ -126,7 +128,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderColor: "rgba(0, 0, 0, 0.2)",
     borderWidth: 1,
-    marginBottom: 8,
+    margin: 8,
+  },
+  map: {
+    flex: 1,
+    width: "80%",
+    height: 200,
   },
 });
 
