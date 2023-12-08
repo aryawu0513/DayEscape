@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 
 import CreateTripScreen from "./Screens/CreateTripScreen.js";
@@ -8,6 +8,7 @@ import SingleNoteScreen from "./Screens/SingleNoteScreen";
 import TripsScreen from "./Screens/TripsScreen.js";
 import SaveTripScreen from "./Screens/SaveTripScreen";
 import TripInfoScreen from "./Screens/TripInfoScreen";
+import LoginScreen from "./Screens/LoginScreen";
 
 import StateContext from "./Components/StateContext.js";
 import { emptyTrip } from "./FakeData/empty_trip.js";
@@ -23,6 +24,11 @@ import {
   // access to Firestore features:
   getFirestore,
 } from "firebase/firestore";
+import { // access to authentication features:
+  getAuth, 
+  // for logging out:
+  signOut
+} from "firebase/auth";
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
@@ -74,6 +80,7 @@ export default function App() {
   const firebaseProps = { db };
   const placeProps = { place, setPlace, listOfPlaces, setListOfPlaces };
   const noteProps = { selectedPlace, setSelectedPlace };
+  const auth = getAuth(firebaseApp);
   const screenProps = {
     tripProps,
     selectedTripProps,
@@ -84,6 +91,11 @@ export default function App() {
   };
   // The above is equivalent to:
   //console.log(trip);
+  // Render LoginScreen if not signed in
+  if (!signedInUser) {
+    return <LoginScreen auth = {auth} signedInProps ={signedInProps} signedInUser = {signedInUser}/>;
+  }
+  // Render main navigation if signed in
   return (
     <StateContext.Provider value={screenProps}>
       <NavigationContainer>
