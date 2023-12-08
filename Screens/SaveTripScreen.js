@@ -42,8 +42,15 @@ const SaveTripScreen = (props) => {
           const placeData = querySnapshot_place.data();
           const noteData = querySnapshot_note.data();
 
+          console.log("placeData", placeData);
+          console.log("placeData.routes", placeData.routes);
+          // Check if placeData.routes is an iterable array
+          const routesArray = Array.isArray(placeData.routes)
+            ? placeData.routes
+            : [];
+
           const newData = {
-            routes: [...placeData.routes, timestampString], // Set your updated value here
+            routes: [...routesArray, timestampString], // Set your updated value here
           };
 
           notes.push(noteData);
