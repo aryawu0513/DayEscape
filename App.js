@@ -9,6 +9,7 @@ import TripsScreen from "./Screens/TripsScreen.js";
 import SaveTripScreen from "./Screens/SaveTripScreen";
 import TripInfoScreen from "./Screens/TripInfoScreen";
 import LoginScreen from "./Screens/LoginScreen";
+import UserScreen from "./Screens/UserScreen.js"
 
 import StateContext from "./Components/StateContext.js";
 import { emptyTrip } from "./FakeData/empty_trip.js";
@@ -63,6 +64,12 @@ const TripStack = () => (
   </Stack.Navigator>
 );
 
+const UserStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="UserScreen" component={UserScreen} />
+  </Stack.Navigator>
+);
+
 export default function App() {
   const [trip, setTrip] = useState(emptyTrip);
   const [selectedTrip, setSelectedTrip] = useState(emptyTrip);
@@ -103,6 +110,7 @@ export default function App() {
           <Tab.Screen name="Places" component={PlaceStack} />
           <Tab.Screen name="Map" component={MapStack} />
           <Tab.Screen name="Trips" component={TripStack} />
+          <Tab.Screen name="User" component={UserStack} />
           {/* Add more tabs as needed */}
         </Tab.Navigator>
       </NavigationContainer>
