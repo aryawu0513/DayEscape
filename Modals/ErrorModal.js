@@ -3,7 +3,6 @@ import React from "react";
 import { Modal, View, Text, Button, StyleSheet } from "react-native";
 
 const ErrorModal = ({ visible, onClose, result }) => {
-  //console.log("ErrorModal - result:", result);
 
   return (
     <Modal visible={visible} animationType="slide" transparent={true}>
