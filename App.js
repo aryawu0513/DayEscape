@@ -9,7 +9,7 @@ import TripsScreen from "./Screens/TripsScreen.js";
 import SaveTripScreen from "./Screens/SaveTripScreen";
 import TripInfoScreen from "./Screens/TripInfoScreen";
 import LoginScreen from "./Screens/LoginScreen";
-import UserScreen from "./Screens/UserScreen.js"
+import UserScreen from "./Screens/UserScreen.js";
 
 import StateContext from "./Components/StateContext.js";
 import { emptyTrip } from "./FakeData/empty_trip.js";
@@ -25,10 +25,11 @@ import {
   // access to Firestore features:
   getFirestore,
 } from "firebase/firestore";
-import { // access to authentication features:
-  getAuth, 
+import {
+  // access to authentication features:
+  getAuth,
   // for logging out:
-  signOut
+  signOut,
 } from "firebase/auth";
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -78,13 +79,18 @@ export default function App() {
   const [listOfPlaces, setListOfPlaces] = useState(null);
   const [hasDelete, setHasDelete] = useState(null);
   const tripProps = { trip, setTrip };
-  const selectedTripProps = { selectedTrip, setSelectedTrip, hasDelete, setHasDelete};
+  const selectedTripProps = {
+    selectedTrip,
+    setSelectedTrip,
+    hasDelete,
+    setHasDelete,
+  };
   // "global" signed-in state for App shared by screens
   const [signedInUser, setSignedInUser] = useState(null);
   const signInUser = (username) => setSignedInUser(username);
   const signOutUser = () => setSignedInUser(null);
   const signedInProps = { signedInUser, signInUser, signOutUser };
-  const firebaseProps = { db };
+  const firebaseProps = { db, auth };
   const placeProps = { place, setPlace, listOfPlaces, setListOfPlaces };
   const noteProps = { selectedPlace, setSelectedPlace };
   const auth = getAuth(firebaseApp);
@@ -94,13 +100,19 @@ export default function App() {
     signedInProps,
     firebaseProps,
     placeProps,
-    noteProps
+    noteProps,
   };
   // The above is equivalent to:
   //console.log(trip);
   // Render LoginScreen if not signed in
   if (!signedInUser) {
-    return <LoginScreen auth = {auth} signedInProps ={signedInProps} signedInUser = {signedInUser}/>;
+    return (
+      <LoginScreen
+        auth={auth}
+        signedInProps={signedInProps}
+        signedInUser={signedInUser}
+      />
+    );
   }
   // Render main navigation if signed in
   return (

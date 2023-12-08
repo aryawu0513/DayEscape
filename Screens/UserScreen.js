@@ -1,15 +1,18 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import React, { useContext, useState, useEffect } from "react";
 
-const UserScreen = ({ navigation, setSignedInUser }) => {
+import { View, Text, Button, StyleSheet } from "react-native";
+import StateContext from "../Components/StateContext";
+
+const UserScreen = (props) => {
+  const { signedInProps, firebaseProps } = useContext(StateContext);
+  const { auth } = firebaseProps;
+  const { signOutUser } = signedInProps;
 
   const handleLogout = () => {
-
-    
-    setSignedInUser(null);
+    signOutUser();
 
     // Navigate back to the LoginScreen
-    navigation.navigate('LoginScreen');
+    props.navigation.goBack();
   };
 
   return (
@@ -23,10 +26,9 @@ const UserScreen = ({ navigation, setSignedInUser }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
 export default UserScreen;
-
