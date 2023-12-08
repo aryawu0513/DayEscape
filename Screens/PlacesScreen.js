@@ -22,14 +22,15 @@ import {
 function PlacesScreen(navigationProps) {
   const [modal, setModal] = useState(false);
   const [places, setPlaces] = useState([]);
-  const { firebaseProps, placeProps, noteProps} = useContext(StateContext);
+  const { firebaseProps, placeProps, noteProps, selectedTripProps} = useContext(StateContext);
   const { listOfPlaces, setListOfPlaces } = placeProps;
   const { selectedPlace, setSelectedPlace } = noteProps;
+  const { hasDelete } = selectedTripProps;
 
   useEffect(() => {
     // Call the function when the component mounts
     getPlaces();
-  }, []);
+  }, [hasDelete]);
 
   async function getPlaces() {
     const q = collection(firebaseProps.db, "places");
