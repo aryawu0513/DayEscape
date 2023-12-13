@@ -111,14 +111,16 @@ export default function LoginScreen({ auth, signedInProps }) {
             mode="contained"
             style={styles.button}
             labelStyle={styles.buttonText}
-            onPress={() => signInUserEmailPassword()}>
+            onPress={() => signInUserEmailPassword()}
+            buttonColor={"#215ED5"}>
             Sign In
           </Button>
           <Button
             mode="contained"
             style={styles.button}
             labelStyle={styles.buttonText}
-            onPress={() => signUpUserEmailPassword()}>
+            onPress={() => signUpUserEmailPassword()}
+            buttonColor={"#215ED5"}>
             Sign Up
           </Button>
         </View>
