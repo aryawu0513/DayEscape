@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     height: 300, // Set a specific height or adjust as needed
   },
   imagePickerButton: {
-    backgroundColor: "#3498db",
+    backgroundColor: "#215ED5",
     borderRadius: 10,
     padding: 10,
     marginVertical: 10,
