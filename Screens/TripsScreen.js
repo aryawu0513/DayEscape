@@ -92,13 +92,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 24,
+    padding: 14,
   },
   listItem: {
-    padding: 10,
+    padding: 12,
+    paddingBottom: 26,
+    paddingLeft: 26,
     marginVertical: 8,
     marginHorizontal: 16,
-    backgroundColor: "#b3e0f5",
+    backgroundColor: "white",
+    borderRadius: 20,
+    width: "90%",
   },
   listItemTitle: {
     fontSize: 15,

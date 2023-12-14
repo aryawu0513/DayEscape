@@ -6,8 +6,9 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  Button,
+  View,
 } from "react-native";
+import { Button } from "react-native-paper";
 import StateContext from "../Components/StateContext";
 
 import {
@@ -80,7 +81,7 @@ function TripNote(props) {
       <SafeAreaView style={styles.container}>
         {notes !== null ? (
           notes.map((note) => (
-            <React.Fragment key={note.id}>
+            <View key={note.id} style={styles.noteContainer}>
               <Text style={styles.titleText}>
                 Current Note for {note.place}
               </Text>
@@ -97,12 +98,14 @@ function TripNote(props) {
                 style={styles.textContainer}
               />
               <Button
-                mode="contained"
-                labelStyle={styles.buttonText}
+                mode="text"
                 title="Save Note"
+                textColor={"#215ED5"}
                 onPress={() => updateNoteDescription(note)}
-              ></Button>
-            </React.Fragment>
+              >
+                Save Note
+              </Button>
+            </View>
           ))
         ) : (
           <Text>Loading notes...</Text>
@@ -116,18 +119,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    height: "100%",
-    alignItems: "center",
+  },
+  noteContainer: {
+    paddingBottom: 10,
   },
   textContainer: {
-    width: "100%",
-    backgroundColor: "#F5F5F5",
-    padding: 15,
+    backgroundColor: "white",
+    padding: 30,
+    paddingTop: 20,
+    flex: 1,
+    minHeight: 100,
+    width: "90%",
+    height: "100%",
+    borderRadius: 20,
     lineHeight: 24,
+    color: "#444444",
+    left: '5%',
   },
   titleText: {
-    fontSize: 15,
+    fontSize: 14,
     padding: 15,
+    left: '5%',
   },
 });
 

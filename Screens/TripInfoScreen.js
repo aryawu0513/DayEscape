@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Text, ScrollView, Button, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 import MapView, { Marker } from "react-native-maps";
 import MapWithTrip from "../Components/MapWithTrip";
 import StateContext from "../Components/StateContext";
@@ -16,7 +17,12 @@ import TripNote from "../Components/TripNote";
 
 const TripInfoScreen = (props) => {
   const { selectedTripProps, firebaseProps } = useContext(StateContext);
-  const { selectedTrip, setSelectedTrip, hasDelete, setHasDelete } = selectedTripProps;
+  const {
+    selectedTrip,
+    setSelectedTrip,
+    hasDelete,
+    setHasDelete,
+  } = selectedTripProps;
   const { db } = firebaseProps;
 
   // Assuming that route.params.tripId contains the ID of the selected trip
@@ -66,15 +72,16 @@ const TripInfoScreen = (props) => {
         <Text style={styles.tripName}>{selectedTrip.tripName}</Text>
 
         {/* Delete Button */}
-        <Button title="Delete Trip" onPress={deleteTrip} />
-
+        <Button mode="text" onPress={deleteTrip} textColor={"#215ED5"}>
+          Delete Trip
+        </Button>
         {/* Map Component */}
         <View style={styles.mapContainer}>
           <MapWithTrip trip={selectedTrip} style={styles.map} />
         </View>
 
         {/* Related Notes */}
-        <Text style={styles.sectionTitle}>Related Notes:</Text>
+        <Text style={styles.sectionTitle}>Related Notes</Text>
         {/* Loop through trip.notes and display relevant information */}
 
         {/* You can map through trip.notes here and display relevant information */}
@@ -89,12 +96,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+    marginTop: 20,
+    marginBottom: 30,
   },
   tripName: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 16,
-    marginTop: 16,
+    padding: 10,
     textAlign: "center", // Center the text horizontally
     alignItems: "center", // Center the text vertically
     justifyContent: "center", // Center the text vertically
@@ -104,7 +112,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 900,
     marginBottom: 8,
     textAlign: "center", // Center the text horizontally
     alignItems: "center", // Center the text vertically
@@ -112,7 +120,9 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     flex: 1,
-    height: 400, // Set a specific height or adjust as needed
+    height: 400,
+    margin: 20, 
+    marginBottom: 40,
   },
   map: {
     flex: 1, // Adjust the flex value as needed

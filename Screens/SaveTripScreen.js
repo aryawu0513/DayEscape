@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 import MapWithTrip from "../Components/MapWithTrip";
 import AddNameModal from "../Modals/AddNameModal";
 import StateContext from "../Components/StateContext";
@@ -100,12 +101,14 @@ const SaveTripScreen = (props) => {
     <View style={styles.container}>
       <Text style={styles.titleText}>Details of Trip {trip.tripName}</Text>
       {/* Save Trip Button */}
-      <Button
-        title="Save Trip"
-        onPress={openModal}
-        disabled={isSaveButtonClicked}
-      />
-
+       <Button
+          mode="text"
+          disabled={isSaveButtonClicked}
+          textColor={"#215ED5"}
+          onPress={openModal}
+        >
+          Save Trip
+        </Button>
       <MapWithTrip trip={trip} />
 
       {/* AddNameModal */}
@@ -137,7 +140,8 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 20,
+    fontSize: 24,
+    padding: 5,
   },
 });
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import { Button } from "react-native-paper";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import TransportPickerModal from "../Modals/TransportPickerModal";
 import { validTrip } from "../utils";
@@ -93,12 +94,14 @@ const TransportationScreen = (props) => {
           ))}
         </View>
         <Button
-          mode="contained"
-          labelStyle={styles.buttonText}
-          title="Finished!"
-          onPress={handleButtonClick}
+          mode="text"
           disabled={!canContinue}
-        ></Button>
+          title="Finished!"
+          textColor={"#215ED5"}
+          onPress={handleButtonClick}
+        >
+          Finished!
+        </Button>
         {modalVisible && (
           <TransportPickerModal
             onClose={setModalVisible}
@@ -121,6 +124,7 @@ const TransportationScreen = (props) => {
             key={index}
             coordinate={place.coordinates}
             title={place.name}
+            pinColor="#215ED5"
           />
         ))}
         {trip.places.map((place, index) => {
@@ -140,7 +144,9 @@ const TransportationScreen = (props) => {
                   },
                 ]}
                 strokeWidth={5}
-                strokeColor={place.transportationMode == null ? "grey" : "blue"}
+                strokeColor={
+                  place.transportationMode == null ? "grey" : "#CE7019"
+                }
                 tappable={true}
                 onPress={() => setModal(index)}
               />

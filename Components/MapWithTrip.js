@@ -44,11 +44,11 @@ const MapWithTrip = ({ trip }) => {
                     destination={nextWaypoint}
                     apikey="AIzaSyD2K1NnQskqsq17udp2vqYQF_We9kuvf6I"
                     strokeWidth={4}
-                    strokeColor="red"
+                    strokeColor="#CE7019"
                     mode={place.transportationMode.toUpperCase()}
                   />
                 )}
-                <Marker coordinate={waypoint} title={place.name} />
+                <Marker coordinate={waypoint} title={place.name} pinColor="#215ED5"/>
               </React.Fragment>
             );
           })}

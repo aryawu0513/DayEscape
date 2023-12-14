@@ -8,21 +8,24 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
-  Button,
 } from "react-native";
+
+import { Button } from "react-native-paper";
 
 import { locations } from "../FakeData/fake_locations";
 import AddPlaceModal from "../Modals/AddPlaceModal";
 
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 function PlacesScreen(navigationProps) {
   const [modal, setModal] = useState(false);
   const [places, setPlaces] = useState([]);
-  const { firebaseProps, placeProps, noteProps, selectedTripProps} = useContext(StateContext);
+  const {
+    firebaseProps,
+    placeProps,
+    noteProps,
+    selectedTripProps,
+  } = useContext(StateContext);
   const { listOfPlaces, setListOfPlaces } = placeProps;
   const { selectedPlace, setSelectedPlace } = noteProps;
   const { hasDelete } = selectedTripProps;
@@ -72,10 +75,12 @@ function PlacesScreen(navigationProps) {
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Places You Saved</Text>
         <Button
-          mode="contained"
-          title="Add New Place"
+          mode="text"
           onPress={() => setModal(true)}
-        ></Button>
+          textColor={"#215ED5"}
+        >
+          Add New Place
+        </Button>
         {modal && <AddPlaceModal onClose={setModal}></AddPlaceModal>}
       </View>
       <FlatList
@@ -102,13 +107,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 24,
+    padding: 14,
   },
   listItem: {
-    padding: 10,
+    padding: 12,
+    paddingBottom: 26,
+    paddingLeft: 26,
     marginVertical: 8,
     marginHorizontal: 16,
-    backgroundColor: "#b3e0f5",
+    backgroundColor: "white",
+    borderRadius: 20,
+    width: "90%",
   },
   listItemText: {
     fontSize: 12,
@@ -118,7 +128,7 @@ const styles = StyleSheet.create({
     color: "grey",
   },
   listItemTitle: {
-    fontSize: 15,
+    fontSize: 16,
     marginTop: 10,
     paddingTop: 10,
     width: "80%",
