@@ -28,7 +28,8 @@ const TripInfoScreen = (props) => {
     setHasDelete,
   } = selectedTripProps;
   const { db } = firebaseProps;
-  const [image, setImage] = useState(null); 
+  const [images, setImages] = useState([]);
+
 
   // Assuming that route.params.tripId contains the ID of the selected trip
   const tripId = selectedTrip.createTime;
@@ -70,53 +71,63 @@ const TripInfoScreen = (props) => {
     props.navigation.goBack();
   };
   
-  // Load image URI from AsyncStorage on component mount
+// Load image URIs from AsyncStorage on component mount
+useEffect(() => {
+  const loadImageURIs = async () => {
+    try {
+      const savedImages = await AsyncStorage.getItem(`images_${tripId}`);
+      if (savedImages) {
+        setImages(JSON.parse(savedImages));
+      }
+    } catch (error) {
+      console.error("Error loading image URIs:", error.message);
+    }
+  };
+
+  loadImageURIs();
+}, [tripId]);
+
+
+  // Save image URIs to AsyncStorage when they change
   useEffect(() => {
-    const loadImageUri = async () => {
+    const saveImageURIs = async () => {
       try {
-        const savedImage = await AsyncStorage.getItem(`image_${tripId}`);
-        if (savedImage) {
-          setImage(savedImage);
-        }
+        await AsyncStorage.setItem(`images_${tripId}`, JSON.stringify(images));
       } catch (error) {
-        console.error("Error loading image URI:", error.message);
+        console.error("Error saving image URIs:", error.message);
       }
     };
 
-    loadImageUri();
-  }, []);
+  saveImageURIs();
+}, [images, tripId]);
 
-  // Save image URI to AsyncStorage when it changes
-  useEffect(() => {
-    const saveImageUri = async () => {
-      try {
-        await AsyncStorage.setItem(`image_${tripId}`, image || '');
-      } catch (error) {
-        console.error("Error saving image URI:", error.message);
-      }
-    };
-
-    saveImageUri();
-  }, [image, tripId]);
-
-  const pickImage = async () => {
+const pickImage = async () => {
+  try {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      multiple: true,
     });
 
-    if (!result.cancelled) {
-      setImage(result.uri);
+    if (!result.canceled) {
+      const selectedUris = result?.uris || [result?.uri];
+      setImages([...images, ...selectedUris]);
     }
-  };
+  } catch (error) {
+    console.error('Error during image picking:', error.message);
+  }
+};
 
-  const deleteImage = async () => {
-    // Delete the image URI from state and AsyncStorage
-    setImage(null);
-    await AsyncStorage.removeItem(`image_${tripId}`);
-  };
+
+  
+
+  const deleteImage = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
+  };  
   
   return (
     <>
@@ -134,15 +145,16 @@ const TripInfoScreen = (props) => {
           <Text style={styles.imagePickerButtonText}>Pick a photo</Text>
         </TouchableOpacity>
 
-        {/* Display selected image */}
-        {image && (
-          <View>
-            <Image source={{ uri: image }} style={styles.selectedImage} />
-            <TouchableOpacity onPress={deleteImage} style={styles.deleteImageButton}>
+        {/* Display selected images */}
+        {images.map((img, index) => (
+          <View key={index}>
+            <Image source={{ uri: img }} style={styles.selectedImage} />
+            <TouchableOpacity onPress={() => deleteImage(index)} style={styles.deleteImageButton}>
               <Text style={styles.deleteImageButtonText}>Delete Photo</Text>
             </TouchableOpacity>
           </View>
-        )}
+        ))}
+
        
         {/* Map Component */}
         <View style={styles.mapContainer}>
