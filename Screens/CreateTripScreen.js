@@ -49,6 +49,13 @@ const CreateTripScreen = (props) => {
   }, [trip]);
 
   useEffect(() => {
+    setTrip(emptyTrip);
+    setSelectedPin(null);
+    setExistingPlace(null);
+    setModalVisible(false);
+    setCanContinue(null);
+    setPlace(null);
+    setListOfPlaces(null);
     getFirebasePlaces();
   }, []);
 

@@ -80,6 +80,10 @@ const SaveTripScreen = (props) => {
     //need to save the trip to firebase
     closeModal();
     await addNotesToTrip(newTrip);
+    props.navigation.reset({
+      index: 0,
+      routes: [{ name: "Trips" }],
+    });
   };
 
   const deleteTrip = () => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import TransportPickerModal from "../Modals/TransportPickerModal";
@@ -20,10 +21,16 @@ const TransportationScreen = (props) => {
     .slice()
     .sort((a, b) => new Date(a.arrivalTime) - new Date(b.arrivalTime));
 
-  useEffect(() => {
-    // Set testResult to null when the component mounts
-    setTestResult(null);
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  // useEffect(() => {
+  //   // Set testResult to null when the component mounts
+  //   setTestResult(null);
+  // }, []); // Empty dependency array ensures this effect runs only once on mount
+  useFocusEffect(
+    React.useCallback(() => {
+      // Set testResult to null when the component gains focus
+      setTestResult(null);
+    }, [])
+  );
 
   useEffect(() => {
     const canContinue = trip.places
