@@ -127,8 +127,8 @@ const pickImage = async () => {
     const newImages = [...images];
     newImages.splice(index, 1);
     setImages(newImages);
-  };  
-  
+  }; 
+    
   return (
     <>
       <ScrollView style={styles.container}>
@@ -145,15 +145,17 @@ const pickImage = async () => {
           <Text style={styles.imagePickerButtonText}>Pick a photo</Text>
         </TouchableOpacity>
 
-        {/* Display selected images */}
-        {images.map((img, index) => (
-          <View key={index}>
-            <Image source={{ uri: img }} style={styles.selectedImage} />
-            <TouchableOpacity onPress={() => deleteImage(index)} style={styles.deleteImageButton}>
-              <Text style={styles.deleteImageButtonText}>Delete Photo</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
+        {/* Display selected images in a grid */}
+        <View style={styles.imageGrid}>
+          {images.map((img, index) => (
+            <View key={index} style={styles.imageContainer}>
+              <Image source={{ uri: img }} style={styles.selectedImage} />
+              <TouchableOpacity onPress={() => deleteImage(index)} style={styles.deleteImageButton}>
+                <Text style={styles.deleteImageButtonText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
 
        
         {/* Map Component */}
@@ -222,20 +224,36 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  imageGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginHorizontal: -5, 
+  },
+  imageContainer: {
+    width: '48%', 
+    aspectRatio: 1, 
+    marginVertical: 5,
+    position: 'relative',
+  },
   selectedImage: {
-    width: 200,
-    height: 200,
-    marginVertical: 10,
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
   },
   deleteImageButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
     backgroundColor: "#e74c3c",
     borderRadius: 10,
-    padding: 10,
+    padding: 5,
     alignItems: 'center',
   },
   deleteImageButtonText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 12,
   },
 });
 
