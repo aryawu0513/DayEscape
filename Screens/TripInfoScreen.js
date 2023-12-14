@@ -15,6 +15,10 @@ import {
 import PersistentNote from "../Components/PersistentNote";
 import TripNote from "../Components/TripNote";
 
+import { Image} from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+
+
 const TripInfoScreen = (props) => {
   const { selectedTripProps, firebaseProps } = useContext(StateContext);
   const {
@@ -24,6 +28,7 @@ const TripInfoScreen = (props) => {
     setHasDelete,
   } = selectedTripProps;
   const { db } = firebaseProps;
+  const [image, setImage] = useState(null); 
 
   // Assuming that route.params.tripId contains the ID of the selected trip
   const tripId = selectedTrip.createTime;
@@ -64,7 +69,20 @@ const TripInfoScreen = (props) => {
     setHasDelete(true);
     props.navigation.goBack();
   };
-
+  
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+  
   return (
     <>
       <ScrollView style={styles.container}>
@@ -75,6 +93,15 @@ const TripInfoScreen = (props) => {
         <Button mode="text" onPress={deleteTrip} textColor={"#215ED5"}>
           Delete Trip
         </Button>
+        
+        {/* Image Picker Button */}
+        <Button mode="text" onPress={pickImage} textColor={"#215ED5"}>
+         Pick related image
+         </Button>
+
+        {/* Display selected image */}
+        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+       
         {/* Map Component */}
         <View style={styles.mapContainer}>
           <MapWithTrip trip={selectedTrip} style={styles.map} />
