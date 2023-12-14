@@ -151,7 +151,7 @@ const pickImage = async () => {
             <View key={index} style={styles.imageContainer}>
               <Image source={{ uri: img }} style={styles.selectedImage} />
               <TouchableOpacity onPress={() => deleteImage(index)} style={styles.deleteImageButton}>
-                <Text style={styles.deleteImageButtonText}>Delete</Text>
+                <Text style={styles.deleteImageButtonText}>x</Text>
               </TouchableOpacity>
             </View>
           ))}
