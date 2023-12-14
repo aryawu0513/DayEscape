@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { Button } from "react-native-paper";
 import MapView, { Marker } from "react-native-maps";
 import MapWithTrip from "../Components/MapWithTrip";
@@ -17,7 +17,7 @@ import TripNote from "../Components/TripNote";
 
 import { Image} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TripInfoScreen = (props) => {
   const { selectedTripProps, firebaseProps } = useContext(StateContext);
@@ -70,6 +70,35 @@ const TripInfoScreen = (props) => {
     props.navigation.goBack();
   };
   
+  // Load image URI from AsyncStorage on component mount
+  useEffect(() => {
+    const loadImageUri = async () => {
+      try {
+        const savedImage = await AsyncStorage.getItem(`image_${tripId}`);
+        if (savedImage) {
+          setImage(savedImage);
+        }
+      } catch (error) {
+        console.error("Error loading image URI:", error.message);
+      }
+    };
+
+    loadImageUri();
+  }, []);
+
+  // Save image URI to AsyncStorage when it changes
+  useEffect(() => {
+    const saveImageUri = async () => {
+      try {
+        await AsyncStorage.setItem(`image_${tripId}`, image || '');
+      } catch (error) {
+        console.error("Error saving image URI:", error.message);
+      }
+    };
+
+    saveImageUri();
+  }, [image, tripId]);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -77,10 +106,16 @@ const TripInfoScreen = (props) => {
       aspect: [4, 3],
       quality: 1,
     });
-  
+
     if (!result.cancelled) {
       setImage(result.uri);
     }
+  };
+
+  const deleteImage = async () => {
+    // Delete the image URI from state and AsyncStorage
+    setImage(null);
+    await AsyncStorage.removeItem(`image_${tripId}`);
   };
   
   return (
@@ -95,12 +130,19 @@ const TripInfoScreen = (props) => {
         </Button>
         
         {/* Image Picker Button */}
-        <Button mode="text" onPress={pickImage} textColor={"#215ED5"}>
-         Pick related image
-         </Button>
+        <TouchableOpacity onPress={pickImage} style={styles.imagePickerButton}>
+          <Text style={styles.imagePickerButtonText}>Pick a photo</Text>
+        </TouchableOpacity>
 
         {/* Display selected image */}
-        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+        {image && (
+          <View>
+            <Image source={{ uri: image }} style={styles.selectedImage} />
+            <TouchableOpacity onPress={deleteImage} style={styles.deleteImageButton}>
+              <Text style={styles.deleteImageButtonText}>Delete Photo</Text>
+            </TouchableOpacity>
+          </View>
+        )}
        
         {/* Map Component */}
         <View style={styles.mapContainer}>
@@ -156,6 +198,32 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     width: "100%", // Set the width to take up the entire space
     height: 300, // Set a specific height or adjust as needed
+  },
+  imagePickerButton: {
+    backgroundColor: "#3498db",
+    borderRadius: 10,
+    padding: 10,
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  imagePickerButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  selectedImage: {
+    width: 200,
+    height: 200,
+    marginVertical: 10,
+  },
+  deleteImageButton: {
+    backgroundColor: "#e74c3c",
+    borderRadius: 10,
+    padding: 10,
+    alignItems: 'center',
+  },
+  deleteImageButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 
