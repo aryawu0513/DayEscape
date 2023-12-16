@@ -14,6 +14,10 @@ import UserScreen from "./Screens/UserScreen.js";
 import StateContext from "./Components/StateContext.js";
 import { emptyTrip } from "./FakeData/empty_trip.js";
 import { fakeTrips } from "./FakeData/fake_trip";
+import {
+  // access to Firebase storage features (for files like images, video, etc.)
+  getStorage,
+} from "firebase/storage";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -34,6 +38,7 @@ import {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp, firebaseConfig.storageBucket); // for storaging images in Firebase storage
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -90,7 +95,7 @@ export default function App() {
   const signInUser = (username) => setSignedInUser(username);
   const signOutUser = () => setSignedInUser(null);
   const signedInProps = { signedInUser, signInUser, signOutUser };
-  const firebaseProps = { db, auth };
+  const firebaseProps = { db, auth, storage };
   const placeProps = { place, setPlace, listOfPlaces, setListOfPlaces };
   const noteProps = { selectedPlace, setSelectedPlace };
   const auth = getAuth(firebaseApp);
@@ -105,15 +110,15 @@ export default function App() {
   // The above is equivalent to:
   //console.log(trip);
   // Render LoginScreen if not signed in
-  // if (!signedInUser) {
-  //   return (
-  //     <LoginScreen
-  //       auth={auth}
-  //       signedInProps={signedInProps}
-  //       signedInUser={signedInUser}
-  //     />
-  //   );
-  // }
+  if (!signedInUser) {
+    return (
+      <LoginScreen
+        auth={auth}
+        signedInProps={signedInProps}
+        signedInUser={signedInUser}
+      />
+    );
+  }
   // Render main navigation if signed in
 
   return (
