@@ -76,7 +76,8 @@ function PlacesScreen(navigationProps) {
         <Text style={styles.titleText}>Places You Saved</Text>
         <Button
           mode="text"
-          onPress={() => setModal(true)}
+          // onPress={() => setModal(true)}
+          onPress={() => navigationProps.navigation.navigate("AddPlaceScreen")}
           textColor={"#215ED5"}
         >
           Add New Place

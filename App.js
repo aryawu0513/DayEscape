@@ -5,6 +5,7 @@ import CreateTripScreen from "./Screens/CreateTripScreen.js";
 import TransportationScreen from "./Screens/TransportationScreen";
 import PlacesScreen from "./Screens/PlacesScreen";
 import SingleNoteScreen from "./Screens/SingleNoteScreen";
+import AddPlaceScreen from "./Screens/AddPlaceScreen.js";
 import TripsScreen from "./Screens/TripsScreen.js";
 import SaveTripScreen from "./Screens/SaveTripScreen";
 import TripInfoScreen from "./Screens/TripInfoScreen";
@@ -54,6 +55,7 @@ const PlaceStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="PlacesScreen" component={PlacesScreen} />
     <Stack.Screen name="SingleNoteScreen" component={SingleNoteScreen} />
+    <Stack.Screen name="AddPlaceScreen" component={AddPlaceScreen} />
     {/* ... other screens ... */}
   </Stack.Navigator>
 );
