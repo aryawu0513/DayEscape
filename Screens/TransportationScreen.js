@@ -84,7 +84,9 @@ const TransportationScreen = (props) => {
                 {index + 1}: {place.name}
               </Text>
               {index != trip.places.length - 1 && (
-                <Text>{`Transportation mode: ${
+                <Text
+                  style={styles.transportationMode}
+                >{`Transportation mode: ${
                   place.transportationMode
                     ? place.transportationMode
                     : "missing"
@@ -93,15 +95,18 @@ const TransportationScreen = (props) => {
             </View>
           ))}
         </View>
-        <Button
-          mode="text"
-          disabled={!canContinue}
-          title="Finished!"
-          textColor={"#215ED5"}
-          onPress={handleButtonClick}
-        >
-          Finished!
-        </Button>
+        <View style={styles.buttonContainer}>
+          <Button
+            mode="contained"
+            disabled={!canContinue}
+            title="Finished!"
+            buttonColor={"#215ED5"}
+            style={styles.button}
+            onPress={handleButtonClick}
+          >
+            Finished!
+          </Button>
+        </View>
         {modalVisible && (
           <TransportPickerModal
             onClose={setModalVisible}
@@ -145,7 +150,7 @@ const TransportationScreen = (props) => {
                 ]}
                 strokeWidth={5}
                 strokeColor={
-                  place.transportationMode == null ? "grey" : "#CE7019"
+                  place.transportationMode == null ? "grey" : "#FF7A00"
                 }
                 tappable={true}
                 onPress={() => setModal(index)}
@@ -172,21 +177,38 @@ const styles = StyleSheet.create({
     flex: 2,
     width: "100%",
     height: "100%",
+    marginTop: 20,
+    margin: 5,
   },
   informationContainer: {
     backgroundColor: "white",
-    padding: 10,
+    padding: 20,
     borderRadius: 5,
     width: "100%",
   },
   textalert: {
-    paddingBottom: 10,
+    paddingBottom: 20,
     alignItems: "center",
     justifyContent: "center",
-    color: "#808080",
   },
   places: {
     padding: 5,
+    fontWeight: "500",
+  },
+  transportationMode: {
+    paddingLeft: 30,
+    padding: 5,
+    color: "#215ED5",
+    fontWeight: "500",
+  },
+  buttonContainer: {
+    marginTop: 15,
+    alignItems: "center", // Align the button horizontally in the center
+    justifyContent: "center", // Align the button vertically in the center
+  },
+  button: {
+    width: "50%",
+    borderRadius: 14,
   },
 });
 

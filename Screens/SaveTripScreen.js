@@ -100,17 +100,17 @@ const SaveTripScreen = (props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>Details of Trip {trip.tripName}</Text>
-      {/* Save Trip Button */}
-       <Button
-          mode="text"
-          disabled={isSaveButtonClicked}
-          textColor={"#215ED5"}
-          onPress={openModal}
-        >
-          Save Trip
-        </Button>
       <MapWithTrip trip={trip} />
-
+      {/* Save Trip Button */}
+      <Button
+        mode="contained"
+        disabled={isSaveButtonClicked}
+        buttonColor={"#215ED5"}
+        onPress={openModal}
+        style={styles.button}
+      >
+        Save Trip
+      </Button>
       {/* AddNameModal */}
       <AddNameModal
         visible={modalVisible}
@@ -141,7 +141,12 @@ const styles = StyleSheet.create({
 
   titleText: {
     fontSize: 24,
-    padding: 5,
+    padding: 15,
+  },
+  button: {
+    width: "30%",
+    borderRadius: 14,
+    margin: 10,
   },
 });
 

@@ -1,5 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { Button } from "react-native-paper";
 import MapView, { Marker } from "react-native-maps";
 import MapWithTrip from "../Components/MapWithTrip";
@@ -15,9 +21,9 @@ import {
 import PersistentNote from "../Components/PersistentNote";
 import TripNote from "../Components/TripNote";
 
-import { Image} from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Image } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TripInfoScreen = (props) => {
   const { selectedTripProps, firebaseProps } = useContext(StateContext);
@@ -29,7 +35,6 @@ const TripInfoScreen = (props) => {
   } = selectedTripProps;
   const { db } = firebaseProps;
   const [images, setImages] = useState([]);
-
 
   // Assuming that route.params.tripId contains the ID of the selected trip
   const tripId = selectedTrip.createTime;
@@ -70,23 +75,22 @@ const TripInfoScreen = (props) => {
     setHasDelete(true);
     props.navigation.goBack();
   };
-  
-// Load image URIs from AsyncStorage on component mount
-useEffect(() => {
-  const loadImageURIs = async () => {
-    try {
-      const savedImages = await AsyncStorage.getItem(`images_${tripId}`);
-      if (savedImages) {
-        setImages(JSON.parse(savedImages));
+
+  // Load image URIs from AsyncStorage on component mount
+  useEffect(() => {
+    const loadImageURIs = async () => {
+      try {
+        const savedImages = await AsyncStorage.getItem(`images_${tripId}`);
+        if (savedImages) {
+          setImages(JSON.parse(savedImages));
+        }
+      } catch (error) {
+        console.error("Error loading image URIs:", error.message);
       }
-    } catch (error) {
-      console.error("Error loading image URIs:", error.message);
-    }
-  };
+    };
 
-  loadImageURIs();
-}, [tripId]);
-
+    loadImageURIs();
+  }, [tripId]);
 
   // Save image URIs to AsyncStorage when they change
   useEffect(() => {
@@ -98,37 +102,34 @@ useEffect(() => {
       }
     };
 
-  saveImageURIs();
-}, [images, tripId]);
+    saveImageURIs();
+  }, [images, tripId]);
 
-const pickImage = async () => {
-  try {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      multiple: true,
-    });
+  const pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        multiple: true,
+      });
 
-    if (!result.canceled) {
-      const selectedUris = result?.uris || [result?.uri];
-      setImages([...images, ...selectedUris]);
+      if (!result.canceled) {
+        const selectedUris = result?.uris || [result?.uri];
+        setImages([...images, ...selectedUris]);
+      }
+    } catch (error) {
+      console.error("Error during image picking:", error.message);
     }
-  } catch (error) {
-    console.error('Error during image picking:', error.message);
-  }
-};
-
-
-  
+  };
 
   const deleteImage = (index) => {
     const newImages = [...images];
     newImages.splice(index, 1);
     setImages(newImages);
-  }; 
-    
+  };
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -139,7 +140,7 @@ const pickImage = async () => {
         <Button mode="text" onPress={deleteTrip} textColor={"#215ED5"}>
           Delete Trip
         </Button>
-        
+
         {/* Image Picker Button */}
         <TouchableOpacity onPress={pickImage} style={styles.imagePickerButton}>
           <Text style={styles.imagePickerButtonText}>Pick a photo</Text>
@@ -150,14 +151,16 @@ const pickImage = async () => {
           {images.map((img, index) => (
             <View key={index} style={styles.imageContainer}>
               <Image source={{ uri: img }} style={styles.selectedImage} />
-              <TouchableOpacity onPress={() => deleteImage(index)} style={styles.deleteImageButton}>
+              <TouchableOpacity
+                onPress={() => deleteImage(index)}
+                style={styles.deleteImageButton}
+              >
                 <Text style={styles.deleteImageButtonText}>x</Text>
               </TouchableOpacity>
             </View>
           ))}
         </View>
 
-       
         {/* Map Component */}
         <View style={styles.mapContainer}>
           <MapWithTrip trip={selectedTrip} style={styles.map} />
@@ -204,7 +207,7 @@ const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
     height: 400,
-    margin: 20, 
+    margin: 20,
     marginBottom: 40,
   },
   map: {
@@ -218,41 +221,41 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginVertical: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   imagePickerButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   imageGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginHorizontal: -5, 
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginHorizontal: -5,
   },
   imageContainer: {
-    width: '48%', 
-    aspectRatio: 1, 
+    width: "48%",
+    aspectRatio: 1,
     marginVertical: 5,
-    position: 'relative',
+    position: "relative",
   },
   selectedImage: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 8,
   },
   deleteImageButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 5,
     right: 5,
     backgroundColor: "#e74c3c",
     borderRadius: 10,
     padding: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   deleteImageButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 12,
   },
 });
