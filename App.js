@@ -105,16 +105,16 @@ export default function App() {
   // The above is equivalent to:
   //console.log(trip);
   // Render LoginScreen if not signed in
-  // if (!signedInUser) {
-  //   return (
-  //     <LoginScreen
-  //       auth={auth}
-  //       signedInProps={signedInProps}
-  //       signedInUser={signedInUser}
-  //     />
-  //   );
-  // }
-  // Render main navigation if signed in
+  if (!signedInUser) {
+    return (
+      <LoginScreen
+        auth={auth}
+        signedInProps={signedInProps}
+        signedInUser={signedInUser}
+      />
+    );
+  }
+  //Render main navigation if signed in
 
   return (
     <StateContext.Provider value={screenProps}>
