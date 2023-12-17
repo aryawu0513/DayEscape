@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import StateContext from "../Components/StateContext";
+import { Button } from "react-native-paper";
 
 const UserScreen = (props) => {
   const { signedInProps, firebaseProps } = useContext(StateContext);
@@ -17,8 +18,8 @@ const UserScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text>Enjoy your DayEscape</Text>
-      <Button title="Logout" onPress={handleLogout} />
+      <Text style={styles.text}>Enjoy your DayEscape!</Text>
+      <Button style={styles.button} mode="contained" buttonColor={"#215ED5"} onPress={handleLogout}>Log out</Button>
     </View>
   );
 };
@@ -29,6 +30,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  text: {
+    fontSize: 20,
+    margin: 20,
+  },
+  button: {
+    borderRadius: 14,
+  }
 });
 
 export default UserScreen;

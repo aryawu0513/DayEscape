@@ -2,42 +2,37 @@
 
 ## Overview
 
-Our Trip Planner app has successfully implemented all core features; however, there are some minor issues that need attention.
+Our Trip Planner app has successfully implemented all core features, and we partially implemented some additional features after the Alpha version.  
 
 ## Current Issues
 
-1. **Trip List Refresh:** After a user saves a trip, the created trip doesn't immediately appear in the list without refreshing the app.
+No known issues in this phase of the implementation. Issues from alpha version are resolved.
 
-2. **Navigation Glitches:** Clicking on the list of trips sometimes leads to unintended jumps to the trip summary view without user interaction.
+## Changes made from Alpha version
 
-3. **Navigation Error:** When on the trip saving screen, there's a navigation error when attempting to go back to the previous transportation selection screen.
+1. **CSS Styling:** We did some CSS styling to a give a more unifying look. All buttons are switch to react paper buttons with unified color palette to match our figma mock up.
 
-4. **Error Handling:** The note screen displays an error message returned from a promise. Need to investigate and resolve the error during promise handling.
+2. **Solved all known bugs and errors:** We solve issues remained from alpha version, like navigation errors and page jumping, as well as real-time update of new routes.
 
-## Changes made from revised design
+3. **Photo taking feature:** An additional feature that we implemented is adding photos to trip summary screen, user can upload multiple photos to a trip and they will be shown in a gallery mode. User can delete photos using delete icon on every image. But picture upload feature only exist locally for now and pictures are not uploaded to firebase yet.
 
-1. **Note Copying:** Persistent notes are always copied to a trip's notes, removing the user's ability to choose whether to include the note related to a place.
-
-2. **Map Interaction:** We have changed the way user create a new place on the map. Instead of entering longitude and latitude, user can click on a map pop-up and place a pin on the place they intend on adding.
+4. **Location search using Google Places API:**  When adding a new place to saved places, in addition to putting down pins on a map, user have a search bar where they can look up a place by putting in a name or address, we make calls to Google API using `react-native-google-places-autocomplete` to give users a list of related places for them to select from. Places they select from the related places will show up as a pin on a map below the search bar, and user can change this selection by touching the map to create a new selecion, or search for another place in the search bar. User will still be prompted to create a name for their selected place, but if user selected a place from the search bar and not directly from the map, the name of that place will be retrieved from Google API and autofilled, user will be given the choice to edit the name. This feature allows more accurately location pinning when user need it, and user can choose to touch map and place pin if a place does not exist in the API. 
 
 ## Work Plan
 
-Since the core features are all finished and implemented in a modularized way, we will not be assigning individual work, and will be working on different parts concurrently whenever we have time.
+We will be working on different additional features concurrently whenever we have time.
 
-### 12.12/13
+### 12.18
 
-- Finish debugging the occasional errors that our app has by going to office hours. Make sure all edge cases are checked. Clean up and comment code in an understandable way.
+- Finish all additional features.
+- Photo feature will be implemented as a remote feature using firebase.
+- Modify app so that user can only view their own trips and places
 
-### 12.15
+### 12.21
 
-- Revise and uniform CSS styling. Improve user experience by turning error message into pop-up displays. Submit Beta Version.
-
-### 12.20
-
-- Implement additional features, starting with a picture database for the
-
-- Implement additional features, starting from creating a picture database for the photo taking feature. We might also explore sharing feature between users if time permits.
+- Finish final round of css styling
+- User testing to find bugs and improve performance
 
 ### 12.22
 
-- Final Submission.
+- Final Submission

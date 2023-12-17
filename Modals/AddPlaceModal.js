@@ -61,6 +61,7 @@ function AddPlaceModal({ onClose }) {
       throw error;
     }
   }
+  
   const handleMapClick = (event) => {
     const { coordinate } = event.nativeEvent;
     setCoordinates(coordinate);

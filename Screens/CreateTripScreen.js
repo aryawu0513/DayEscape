@@ -126,7 +126,7 @@ const CreateTripScreen = (props) => {
               pinColor={
                 trip.places.some((place) => place.name === location.name)
                   ? "#034BD7"
-                  : "#DA8434"
+                  : "#FF7A00"
               }
               onPress={() => handleMarkerPress(location)}
             />

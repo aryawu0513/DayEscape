@@ -1,17 +1,16 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   View,
   Text,
   Modal,
-  Button,
   Dimensions,
   TouchableOpacity,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import StateContext from "../Components/StateContext";
-
+import { Button } from "react-native-paper";
 
 const { width } = Dimensions.get("window");
 
@@ -25,7 +24,9 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
   const [leaveTime, setLeaveTime] = useState(
     existingPlace ? new Date(existingPlace.leaveTime) : new Date()
   );
-  const { placeProps} = useContext(StateContext);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const { placeProps } = useContext(StateContext);
   const { place } = placeProps;
 
   const changeArrivalTime = (event, selectedDate) => {
@@ -44,6 +45,9 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
         "Invalid time selection: Leave time must be before arrival time",
         leaveTime.getTime(),
         arrivalTime.getTime()
+      );
+      setErrorMessage(
+        "Invalid time selection: Leave time must be before arrival time!"
       );
       return;
     }
@@ -66,6 +70,7 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
       console.error(
         "Warning: Overlapping time constraints with existing places"
       );
+      setErrorMessage("Overlapping time with existing places!");
       return;
     }
     if (existingPlace) {
@@ -135,30 +140,43 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
           <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
             <Icon name="times" size={20} color="#333" />
           </TouchableOpacity>
-          <Text>Select arrival time: {arrivalTime.toLocaleString()}</Text>
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={arrivalTime}
-            mode={"time"}
-            is24Hour={true}
-            onChange={changeArrivalTime}
-          />
-          <Text>Select leave time: {leaveTime.toLocaleString()}</Text>
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={leaveTime}
-            mode={"time"}
-            is24Hour={true}
-            onChange={changeLeaveTime}
-          />
-          <Button onPress={handleAddToTrip} title="Add to Trip" />
+          <View style={styles.rowContainer}>
+            {/* Arrival Time Column */}
+            <View style={styles.column}>
+              <Text style={styles.time}>
+                Arrival time
+              </Text>
+              <DateTimePicker
+                testID="dateTimePickerArrival"
+                value={arrivalTime}
+                mode={"time"}
+                is24Hour={true}
+                onChange={changeArrivalTime}
+              />
+            </View>
+            {/* Leave Time Column */}
+            <View style={styles.column}>
+              <Text style={styles.time}>
+                Leave time
+              </Text>
+              <DateTimePicker
+                testID="dateTimePickerLeave"
+                value={leaveTime}
+                mode={"time"}
+                is24Hour={true}
+                onChange={changeLeaveTime}
+              />
+            </View>
+          </View>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+
+          <Button onPress={handleAddToTrip} mode="text" textColor={"#215ED5"}>
+            Add to trip
+          </Button>
           {existingPlace && (
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={handleDeletePlace}
-            >
-              <Text style={{ color: "red" }}>Delete Place</Text>
-            </TouchableOpacity>
+            <Button onPress={handleDeletePlace} mode="text" textColor={"red"}>
+              Delete from trip
+            </Button>
           )}
         </View>
       </View>
@@ -182,7 +200,7 @@ const styles = StyleSheet.create({
     left: "50%",
     elevation: 5,
     transform: [{ translateX: -(width * 0.4) }, { translateY: -90 }],
-    height: 180,
+    height: 220,
     width: width * 0.8,
     backgroundColor: "#fff",
     borderRadius: 7,
@@ -192,6 +210,24 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
   },
+  rowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "90%",
+  },
+  column: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  time: {
+    paddingBottom: 10,
+    fontSize: 16
+  },
+  errorMessage: {
+    padding: 10,
+    color:"#7F9AD0",
+  }
 });
 
 export default TimePickerModal;
