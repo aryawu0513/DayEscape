@@ -25,6 +25,7 @@ function PlacesScreen(navigationProps) {
     placeProps,
     noteProps,
     selectedTripProps,
+    signedInProps,
   } = useContext(StateContext);
   const { listOfPlaces, setListOfPlaces } = placeProps;
   const { selectedPlace, setSelectedPlace } = noteProps;
@@ -36,7 +37,8 @@ function PlacesScreen(navigationProps) {
   }, [hasDelete]);
 
   async function getPlaces() {
-    const q = collection(firebaseProps.db, "places");
+    console.log("user id is", signedInProps.uid);
+    const q = collection(firebaseProps.db, "users", signedInProps.uid, "places");
     try {
       // Get all documents from the "places" collection
       const querySnapshot = await getDocs(q);

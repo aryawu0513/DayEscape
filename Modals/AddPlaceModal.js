@@ -21,7 +21,7 @@ function AddPlaceModal({ onClose }) {
   const [coordinates, setCoordinates] = useState(null);
   // const [longitude, setLongitude] = useState("");
   // const [latitude, setLatitude] = useState("");
-  const { firebaseProps, placeProps } = useContext(StateContext);
+  const { firebaseProps, placeProps, signedInProps} = useContext(StateContext);
 
   async function closeModal() {
     const timestamp = new Date().getTime();
@@ -50,6 +50,7 @@ function AddPlaceModal({ onClose }) {
   async function addPlaceToDB(newPlace, timestampString, newNote) {
     try {
       // Add a new place in collection "places"
+      //await setDoc(doc(firebaseProps.db, "places", timestampString), newPlace);
       await setDoc(doc(firebaseProps.db, "places", timestampString), newPlace);
 
       await setDoc(

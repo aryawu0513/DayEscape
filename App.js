@@ -89,9 +89,10 @@ export default function App() {
   };
   // "global" signed-in state for App shared by screens
   const [signedInUser, setSignedInUser] = useState(null);
-  const signInUser = (username) => setSignedInUser(username);
-  const signOutUser = () => setSignedInUser(null);
-  const signedInProps = { signedInUser, signInUser, signOutUser };
+  const [uid, setUid] = useState('');
+  const signInUser = (username) => setUid(username);
+  const signOutUser = () => setUid(null);
+  const signedInProps = { signedInUser, signInUser, signOutUser, uid, setUid};
   const firebaseProps = { db, auth };
   const placeProps = { place, setPlace, listOfPlaces, setListOfPlaces };
   const noteProps = { selectedPlace, setSelectedPlace };
@@ -107,12 +108,13 @@ export default function App() {
   // The above is equivalent to:
   //console.log(trip);
   // Render LoginScreen if not signed in
-  if (!signedInUser) {
+  if (!uid) {
     return (
       <LoginScreen
         auth={auth}
         signedInProps={signedInProps}
         signedInUser={signedInUser}
+        firebaseProps={firebaseProps}
       />
     );
   }

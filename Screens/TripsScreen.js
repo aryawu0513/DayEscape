@@ -11,7 +11,7 @@ import StateContext from "../Components/StateContext";
 import { collection, getDocs } from "firebase/firestore";
 
 function TripsScreen(props) {
-  const { selectedTripProps, firebaseProps } = useContext(StateContext);
+  const { selectedTripProps, firebaseProps, signedInProps } = useContext(StateContext);
   const { selectedTrip, setSelectedTrip, hasDelete, setHasDelete } =
     selectedTripProps;
   const { db } = firebaseProps;
@@ -25,7 +25,7 @@ function TripsScreen(props) {
 
   async function getTrips() {
     //console.log("Getting Trips");
-    const q = collection(firebaseProps.db, "trips");
+    const q = collection(firebaseProps.db, "users", signedInProps.uid, "trips");
     try {
       // Get all documents from the "routes" collection
       const querySnapshot = await getDocs(q);

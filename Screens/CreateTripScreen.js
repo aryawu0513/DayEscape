@@ -24,13 +24,13 @@ const CreateTripScreen = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [places, setPlaces] = useState([]);
   const [canContinue, setCanContinue] = useState(null);
-  const { tripProps, firebaseProps, placeProps } = useContext(StateContext);
+  const { tripProps, firebaseProps, placeProps, signedInProps } = useContext(StateContext);
   const { trip, setTrip } = tripProps;
   const { place, setPlace, listOfPlaces, setListOfPlaces } = placeProps;
   const { db } = firebaseProps;
 
   async function getFirebasePlaces() {
-    const q = collection(db, "places");
+    const q = collection(db, "users",  signedInProps.uid, "places");
     try {
       // Get all documents from the "places" collection
       const querySnapshot = await getDocs(q);

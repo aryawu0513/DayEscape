@@ -19,7 +19,9 @@ import {
 } from "firebase/firestore";
 
 function TripNote(props) {
-  const { selectedTripProps, firebaseProps } = useContext(StateContext);
+  const { selectedTripProps, firebaseProps, signedInProps } = useContext(
+    StateContext
+  );
   const { selectedTrip, setSelectedTrip } = selectedTripProps;
   const { db } = firebaseProps;
   const { placeProps } = useContext(StateContext);
@@ -29,7 +31,7 @@ function TripNote(props) {
 
   async function updateNoteDescription(selectedNote) {
     try {
-      const docRef = doc(db, "trips", tripId);
+      const docRef = doc(db, "users", signedInProps.uid, "trips", tripId);
 
       // Assuming 'notes' is the field containing the array of notes in your trip object
       const newNotes = notes.map((note) => {
@@ -58,7 +60,7 @@ function TripNote(props) {
 
   async function getNote() {
     try {
-      const q = doc(db, "trips", tripId);
+      const q = doc(db, "users", signedInProps.uid, "trips", tripId);
       const querySnapshot = await getDoc(q);
       const noteData = querySnapshot.data();
       //console.log("noteData", noteData.notes);
@@ -134,12 +136,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     lineHeight: 24,
     color: "#444444",
-    left: '5%',
+    left: "5%",
   },
   titleText: {
     fontSize: 14,
     padding: 15,
-    left: '5%',
+    left: "5%",
   },
 });
 

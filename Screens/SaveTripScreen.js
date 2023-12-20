@@ -9,7 +9,7 @@ import { emptyTrip } from "../FakeData/empty_trip";
 import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 
 const SaveTripScreen = (props) => {
-  const { tripProps, firebaseProps } = useContext(StateContext);
+  const { tripProps, firebaseProps, signedInProps } = useContext(StateContext);
   const { trip, setTrip } = tripProps;
   // console.log("This is trip", trip);
   // console.log("This is name", trip.tripName);
@@ -19,7 +19,7 @@ const SaveTripScreen = (props) => {
   async function addTripToDB(inputTrip, timestampString) {
     try {
       const newTrip = { ...inputTrip, createTime: timestampString };
-      await setDoc(doc(firebaseProps.db, "trips", timestampString), newTrip);
+      await setDoc(doc(firebaseProps.db, 'users', signedInProps.uid, "trips", timestampString), newTrip);
       setTrip(newTrip);
     } catch (error) {
       console.error("Error adding trip:", error.message);
@@ -34,8 +34,8 @@ const SaveTripScreen = (props) => {
     try {
       await Promise.all(
         trip.places.map(async (place) => {
-          const doc_note = doc(firebaseProps.db, "persistent_notes", place.id);
-          const doc_place = doc(firebaseProps.db, "places", place.id);
+          const doc_note = doc(firebaseProps.db, "users", signedInProps.uid, "persistent_notes", place.id);
+          const doc_place = doc(firebaseProps.db, "users", signedInProps.uid, "places", place.id);
 
           const querySnapshot_note = await getDoc(doc_note);
           const querySnapshot_place = await getDoc(doc_place);
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   button: {
-    width: "30%",
+    width: "50%",
     borderRadius: 14,
     margin: 10,
   },

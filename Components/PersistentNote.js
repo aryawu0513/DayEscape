@@ -18,7 +18,7 @@ import {
 } from "firebase/firestore";
 
 function PersistentNote(props) {
-  const { firebaseProps } = useContext(StateContext);
+  const { firebaseProps, signedInProps} = useContext(StateContext);
   const { noteProps } = useContext(StateContext);
   const [note, setNote] = useState(null);
   const [value, onChangeText] = useState("");
@@ -27,6 +27,8 @@ function PersistentNote(props) {
     try {
       const docRef = doc(
         firebaseProps.db,
+        "users",
+        signedInProps.uid,
         "persistent_notes",
         noteProps.selectedPlace.id
       );
@@ -52,6 +54,8 @@ function PersistentNote(props) {
   async function getNote() {
     const q = doc(
       firebaseProps.db,
+      "users",
+      signedInProps.uid,
       "persistent_notes",
       noteProps.selectedPlace.id
     );

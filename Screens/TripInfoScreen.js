@@ -26,7 +26,7 @@ import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TripInfoScreen = (props) => {
-  const { selectedTripProps, firebaseProps } = useContext(StateContext);
+  const { selectedTripProps, firebaseProps, signedInProps} = useContext(StateContext);
   const {
     selectedTrip,
     setSelectedTrip,
@@ -45,7 +45,7 @@ const TripInfoScreen = (props) => {
 
   // Find the selected trip based on tripId
   async function getTrip() {
-    const q = doc(db, "trips", tripId);
+    const q = doc(db, 'users', signedInProps.uid, "trips", tripId);
     try {
       // Construct the reference to the specific trip document
       const querySnapshot = await getDoc(q);
@@ -59,10 +59,10 @@ const TripInfoScreen = (props) => {
 
   // Function to delete the trip
   const deleteTrip = async () => {
-    const q = doc(db, "trips", tripId);
+    const q = doc(db, 'users', signedInProps.uid,"trips", tripId);
     await Promise.all(
       selectedTrip.places.map(async (place) => {
-        const q_place = doc(db, "places", place.id);
+        const q_place = doc(db, 'users', signedInProps.uid, "places", place.id);
         const querySnapshot = await getDoc(q_place);
         const placeData = querySnapshot.data();
         placeData.routes = placeData.routes.filter((id) => id !== tripId);

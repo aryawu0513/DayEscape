@@ -18,7 +18,7 @@ import {
 } from "firebase/firestore";
 
 function PastNote() {
-  const { firebaseProps } = useContext(StateContext);
+  const { firebaseProps, signedInProps } = useContext(StateContext);
   const { noteProps } = useContext(StateContext);
   const [notes, setNotes] = useState([]);
   const selectedPlace = noteProps.selectedPlace;
@@ -40,7 +40,7 @@ function PastNote() {
       await Promise.all(
         selectedPlace.routes.map(async (tripID) => {
           console.log("Getting trip ", tripID, "from firebase");
-          const trip_doc = doc(firebaseProps.db, "trips", tripID);
+          const trip_doc = doc(firebaseProps.db, "users", signedInProps.uid, "trips", tripID);
 
           const querySnapshot_trip = await getDoc(trip_doc);
           const tripData = querySnapshot_trip.data();

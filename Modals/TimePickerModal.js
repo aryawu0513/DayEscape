@@ -41,11 +41,11 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
   function handleAddToTrip() {
     if (leaveTime.getTime() <= arrivalTime.getTime()) {
       // Handle invalid case (e.g., show an error message)
-      console.error(
-        "Invalid time selection: Leave time must be before arrival time",
-        leaveTime.getTime(),
-        arrivalTime.getTime()
-      );
+      // console.error(
+      //   "Invalid time selection: Leave time must be before arrival time",
+      //   leaveTime.getTime(),
+      //   arrivalTime.getTime()
+      // );
       setErrorMessage(
         "Invalid time selection: Leave time must be before arrival time!"
       );
@@ -67,9 +67,9 @@ function TimePickerModal({ onClose, pin, onCreate, trip, existingPlace }) {
     });
     if (isOverlap) {
       // Handle overlapping case (e.g., show a warning)
-      console.error(
-        "Warning: Overlapping time constraints with existing places"
-      );
+      // console.error(
+      //   "Warning: Overlapping time constraints with existing places"
+      // );
       setErrorMessage("Overlapping time with existing places!");
       return;
     }

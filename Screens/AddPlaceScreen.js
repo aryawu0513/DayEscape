@@ -28,7 +28,7 @@ const AddPlaceScreen = (navigationProps) => {
   });
   const [modal, setModal] = useState(false);
   const [name, setName] = useState("");
-  const { firebaseProps, placeProps } = useContext(StateContext);
+  const { firebaseProps, placeProps, signedInProps } = useContext(StateContext);
 
   const updateRegion = (latitude, longitude) => {
     setRegion({
@@ -72,12 +72,32 @@ const AddPlaceScreen = (navigationProps) => {
   async function addPlaceToDB(newPlace, timestampString, newNote) {
     try {
       // Add a new place in collection "places"
-      await setDoc(doc(firebaseProps.db, "places", timestampString), newPlace);
+      await setDoc(
+        doc(
+          firebaseProps.db,
+          "users",
+          signedInProps.uid,
+          "places",
+          timestampString
+        ),
+        newPlace
+      );
+      //await setDoc(doc(firebaseProps.db, "places", timestampString), newPlace);
 
       await setDoc(
-        doc(firebaseProps.db, "persistent_notes", timestampString),
+        doc(
+          firebaseProps.db,
+          "users",
+          signedInProps.uid,
+          "persistent_notes",
+          timestampString
+        ),
         newNote
       );
+      /*       await setDoc(
+        doc(firebaseProps.db, "persistent_notes", timestampString),
+        newNote
+      ); */
     } catch (error) {
       console.error("Error adding place and note:", error.message);
       throw error;
